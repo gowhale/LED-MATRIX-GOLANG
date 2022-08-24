@@ -31,7 +31,7 @@ func (*terminalGui) VapeLightOn(_ int) error {
 	return err
 }
 
-// VapeLightOn prints out space char
+// VapeLightOn prints out " "
 func (*terminalGui) VapeLightOff(_ int) error {
 	_, err := fmt.Printf(" ")
 	return err
@@ -46,24 +46,10 @@ func (*terminalGui) AllVapesOff() error {
 
 // DisplayMatrix displays the matrix provided
 func (s *terminalGui) DisplayMatrix(matrix [][]int) error {
-	count := rowColStartIndex
-	for _, row := range matrix {
-		for _, col := range row {
-			if col == VapeOn {
-				if err := s.VapeLightOn(count); err != nil {
-					return err
-				}
-			}
-			if col == VapeOff {
-				if err := s.VapeLightOff(count); err != nil {
-					return err
-				}
-			}
-			count++
-		}
-		if _, err := fmt.Printf("\n"); err != nil {
-			return err
-		}
-	}
-	return nil
+	return DisplayMatrix(s, matrix)
+}
+
+func (*terminalGui) NewRow() error {
+	_, err := fmt.Printf("\n")
+	return err
 }

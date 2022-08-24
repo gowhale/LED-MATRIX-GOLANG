@@ -1,4 +1,4 @@
-// Package gui is responsible for visual output 
+// Package gui is responsible for visual output
 // File fyneio.go implements fyne.io methods for gui interface
 package gui
 
@@ -24,7 +24,7 @@ var (
 )
 
 //Canvas represents a canvas in the fyne.io GUI
-//go: generate go run github.com/vektra/mockery/cmd/mockery -name Screen -inpkg --filename screen_mock.go
+//go:generate go run github.com/vektra/mockery/cmd/mockery -name Canvas -inpkg --filename canvas_mock.go
 type Canvas interface {
 	NewCircle(color.Color)
 	VapeLightOff(int)
@@ -90,7 +90,11 @@ func (s *fyneScreen) VapeLightOff(i int) error {
 }
 
 func (s *fyneScreen) AllVapesOff() error {
-	for i := range s.vapes {
+	return allVapesOff(s, s.vapes)
+}
+
+func allVapesOff(s Screen, vapes []*canvas.Circle) error {
+	for i := range vapes {
 		if err := s.VapeLightOff(i); err != nil {
 			return err
 		}
@@ -99,21 +103,9 @@ func (s *fyneScreen) AllVapesOff() error {
 }
 
 func (s *fyneScreen) DisplayMatrix(matrix [][]int) error {
-	count := rowColStartIndex
-	for _, row := range matrix {
-		for _, col := range row {
-			if col == VapeOn {
-				if err := s.VapeLightOn(count); err != nil {
-					return err
-				}
-			}
-			if col == VapeOff {
-				if err := s.VapeLightOff(count); err != nil {
-					return err
-				}
-			}
-			count++
-		}
-	}
+	return DisplayMatrix(s, matrix)
+}
+
+func (*fyneScreen) NewRow() error {
 	return nil
 }
