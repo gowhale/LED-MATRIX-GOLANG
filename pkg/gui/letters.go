@@ -1,3 +1,5 @@
+// Package gui is responsible for visual output
+// File letters.go stores information on how to represent letters with lights
 package gui
 
 const (

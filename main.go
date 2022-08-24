@@ -1,3 +1,4 @@
+// Package main is the entry point for our binary
 package main
 
 import (
@@ -14,7 +15,10 @@ const (
 )
 
 func main() {
-	windows, screen := gui.NewGui()
+	screen := gui.NewTerminalGui()
+	defer func() {
+		screen.ShowAndRun()
+	}()
 	word := "    lets get ready to rumble"
 	matrix, err := concatanateLetters(word)
 	if err != nil {
@@ -23,54 +27,36 @@ func main() {
 	go func() {
 		offset := offsetStart
 		for offset < offsetLimit {
-			if err := screen.AllVapesOff(); err != nil {
-				log.Fatalln(err)
-			}
 			trimmedMatrix, err := trimMatrix(matrix, offset)
 			if err != nil {
 				log.Panicln(err)
 			}
-			if err := screen.DisplayLetter(trimmedMatrix); err != nil {
+			if err := screen.AllVapesOff(); err != nil {
+				log.Fatalln(err)
+			}
+			if err := screen.DisplayMatrix(trimmedMatrix); err != nil {
 				log.Panicln(err)
 			}
 			time.Sleep(refreshTime)
 			offset++
-			if _, err := fmt.Printf("offset=%d", offset); err != nil {
-				log.Panicln(err)
-			}
 		}
 	}()
-	if _, err := fmt.Println("showing"); err != nil {
-		log.Panicln(err)
-	}
-	windows.ShowAndRun()
 }
 
 func trimMatrix(matrix [][]int, offset int) ([][]int, error) {
-	if _, err := fmt.Println("Creating new matrix"); err != nil {
-		return nil, err
-	}
 	newMatrix := make([][]int, gui.Rows)
 	for i := range newMatrix {
 		newMatrix[i] = make([]int, gui.Columns)
-	}
-
-	if _, err := fmt.Println("Copying old matrix with offset"); err != nil {
-		return nil, err
 	}
 	for i := range matrix {
 		count := offsetStart
 		currentOffset := offset + count
 
 		for (count < len(matrix[i])) && ((offset - currentOffset) < gui.Columns) && currentOffset < len(matrix[i]) && count < gui.Columns {
-			// fmt.Println((count < len(matrix[i])), len(matrix[i]), currentOffset-offset, count)
 			newMatrix[i][count] = matrix[i][currentOffset]
 			currentOffset++
 			count++
 		}
-	}
-	if _, err := fmt.Println("filling new matrix"); err != nil {
-		return nil, err
 	}
 	for i := range newMatrix {
 		for len(newMatrix[i]) < gui.Columns {
@@ -92,12 +78,10 @@ func concatanateLetters(word string) ([][]int, error) {
 		}
 		if index != offsetStart {
 			for j, r := range newLetter {
-				log.Println(len(r))
 				sentenceAsLEDs[j] = append(sentenceAsLEDs[j], gui.VapeOff)
 				sentenceAsLEDs[j] = append(sentenceAsLEDs[j], r...)
 			}
 		}
 	}
-
 	return sentenceAsLEDs, nil
 }
