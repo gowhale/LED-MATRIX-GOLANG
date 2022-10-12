@@ -14,11 +14,11 @@ const (
 )
 
 func main() {
-	screen := gui.NewTerminalGui()
+	screen := gui.NewledGUI()
 	defer func() {
 		screen.ShowAndRun()
 	}()
-	word := "    lets get ready to rumble"
+	word := "lets get ready to rumble"
 	matrix, err := mx.ConcatanateLetters(word)
 	if err != nil {
 		log.Panicln(err)
@@ -36,7 +36,6 @@ func main() {
 			if err := screen.DisplayMatrix(trimmedMatrix); err != nil {
 				log.Panicln(err)
 			}
-			time.Sleep(refreshTime)
 			offset++
 		}
 	}()
