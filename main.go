@@ -9,34 +9,35 @@ import (
 )
 
 const (
-	refreshTime = time.Millisecond * 100
+	refreshTime = time.Second
 	offsetLimit = 1000
 )
 
 func main() {
-	screen := gui.NewledGUI()
+	screen := gui.NewTerminalGui()
 	defer func() {
-		screen.ShowAndRun()
+		err := screen.Close()
+		if err != nil {
+			log.Println(err)
+		}
 	}()
+
 	word := "lets get ready to rumble"
 	matrix, err := mx.ConcatanateLetters(word)
 	if err != nil {
 		log.Panicln(err)
 	}
-	go func() {
-		offset := mx.OffsetStart
-		for offset < offsetLimit {
-			trimmedMatrix, err := mx.TrimMatrix(matrix, gui.Rows, gui.Columns, offset)
-			if err != nil {
-				log.Panicln(err)
-			}
-			if err := screen.AllVapesOff(); err != nil {
-				log.Fatalln(err)
-			}
-			if err := screen.DisplayMatrix(trimmedMatrix); err != nil {
-				log.Panicln(err)
-			}
-			offset++
+	for offset := mx.OffsetStart; offset < offsetLimit; offset++ {
+		trimmedMatrix, err := mx.TrimMatrix(matrix, gui.Rows, gui.Columns, offset)
+		if err != nil {
+			log.Fatalln(err)
 		}
-	}()
+		if err := screen.AllVapesOff(); err != nil {
+			log.Fatalln(err)
+		}
+		if err := screen.DisplayMatrix(trimmedMatrix, refreshTime); err != nil {
+			log.Panicln(err)
+		}
+	}
+	log.Println("fin.")
 }

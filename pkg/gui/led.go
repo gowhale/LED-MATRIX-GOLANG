@@ -4,11 +4,14 @@ package gui
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/stianeikeland/go-rpio"
 )
 
+// consts starting with L represent left side pins
+// consts starting with R represent right side pins
 const (
 	L3  = 20
 	L6  = 16
@@ -28,11 +31,19 @@ const (
 	R18 = 26
 	R21 = 25
 
-	sleep          = 1
+	sleep          = 1 // amount of ms to keep single LED on whilst multiplexing
 	runTimeSeconds = 100
 )
 
-var rows = []int{R7, L3, R10, L6, L11, R18, L14, R21}
+var rows = []int{R7,
+	L3,
+	R10,
+	L6,
+	L11,
+	R18,
+	L14,
+	R21}
+
 var cols = []int{L10,
 	L9,
 	L8,
@@ -79,20 +90,24 @@ func letterToLED(l [][]int) [][]int {
 type LEDGUI struct{}
 
 // NewledGUI returns ledGUI struct to display output on terminal
-func NewledGUI() Screen {
-	return &LEDGUI{}
-}
-
-// ShowAndRun waits so the update of letters can occure
-func (*LEDGUI) ShowAndRun() {
+func NewledGUI() (Screen, error) {
 	fmt.Println("opening gpio")
 	err := rpio.Open()
 	if err != nil {
-		panic(fmt.Sprint("unable to open gpio", err.Error()))
+		return nil, err
 	}
-
-	defer rpio.Close()
-	time.Sleep(amountOfHoursToWaitToEndDefer * time.Hour)
+	log.Println("New LED GUI")
+	for _, c := range cols {
+		log.Println("pin =", c)
+		p := rpio.Pin(c)
+		p.Output()
+	}
+	for _, c := range rows {
+		log.Println("pin =", c)
+		p := rpio.Pin(c)
+		p.Output()
+	}
+	return &LEDGUI{}, nil
 }
 
 // VapeLightOn prints out "0"
@@ -111,12 +126,10 @@ func (*LEDGUI) AllVapesOff() error {
 }
 
 // DisplayMatrix displays the matrix provided
-func (s *LEDGUI) DisplayMatrix(matrix [][]int) error {
-
+func (s *LEDGUI) DisplayMatrix(matrix [][]int, t time.Duration) error {
 	startTime := time.Now()
 	coordinates := letterToLED(matrix)
-
-	for time.Since(startTime) < time.Millisecond*runTimeSeconds {
+	for time.Since(startTime) < t {
 		for _, c := range coordinates {
 			cordinatesToLED(c)
 		}
@@ -126,4 +139,8 @@ func (s *LEDGUI) DisplayMatrix(matrix [][]int) error {
 
 func (*LEDGUI) NewRow() error {
 	return nil
+}
+
+func (*LEDGUI) Close() error {
+	return rpio.Close()
 }
