@@ -4,13 +4,14 @@ package gui
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/suite"
 )
 
 type terminalSuite struct {
 	suite.Suite
-	terminal   terminalGui
+	terminal terminalGui
 }
 
 func (t *terminalSuite) SetupTest() {
@@ -21,23 +22,11 @@ func TestTerminalSuite(t *testing.T) {
 	suite.Run(t, new(terminalSuite))
 }
 
-func (t *terminalSuite) Test_VapeLightOn_Pass() {
-	err := t.terminal.VapeLightOn(VapeOff)
-	t.Nil(err)
-}
-
-func (t *terminalSuite) Test_VapeLightOff_Pass() {
-	err := t.terminal.VapeLightOff(VapeOff)
-	t.Nil(err)
-}
-
 func (t *terminalSuite) Test_NewRow_Pass() {
-	err := t.terminal.NewRow()
-	t.Nil(err)
 }
 
 func (t *terminalSuite) Test_DisplayMatrix_Pass() {
-	err := t.terminal.DisplayMatrix(letterA)
+	err := t.terminal.DisplayMatrix(letterA, time.Millisecond)
 	t.Nil(err)
 }
 

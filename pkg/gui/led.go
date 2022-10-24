@@ -78,7 +78,6 @@ func letterToLED(l [][]int) [][]int {
 	coordinates := [][]int{}
 	for i, row := range l {
 		for j, col := range row {
-			// log.Printf("x=%d y=%d val=%d col=%d", j, i, l[i][j], col)
 			if col == VapeOn {
 				coordinates = append(coordinates, []int{j, i})
 			}
@@ -110,16 +109,6 @@ func NewledGUI() (Screen, error) {
 	return &LEDGUI{}, nil
 }
 
-// VapeLightOn prints out "0"
-func (*LEDGUI) VapeLightOn(_ int) error {
-	return nil
-}
-
-// VapeLightOn prints out " "
-func (*LEDGUI) VapeLightOff(_ int) error {
-	return nil
-}
-
 // AllVapesOff clears the termina
 func (*LEDGUI) AllVapesOff() error {
 	return nil
@@ -134,10 +123,6 @@ func (s *LEDGUI) DisplayMatrix(matrix [][]int, t time.Duration) error {
 			cordinatesToLED(c)
 		}
 	}
-	return nil
-}
-
-func (*LEDGUI) NewRow() error {
 	return nil
 }
 

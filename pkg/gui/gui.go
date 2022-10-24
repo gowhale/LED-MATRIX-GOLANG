@@ -22,6 +22,6 @@ const (
 //go:generate go run github.com/vektra/mockery/cmd/mockery -name Screen -inpkg --filename screen_mock.go
 type Screen interface {
 	AllVapesOff() error                                                // Set all vapes to off
-	Close() error                                                      // Closes the connections
+	Close() error                                                      // Defer to prevent errors next run
 	DisplayMatrix(matrix [][]int, displayDuration time.Duration) error // Displays matrix for x amount of time
 }
