@@ -23,6 +23,7 @@ const (
 	L14 = 21
 
 	R7  = 23
+	R8  = 24
 	R10 = 18
 	R13 = 4
 	R14 = 27
@@ -35,7 +36,7 @@ const (
 	runTimeSeconds = 100
 )
 
-var rows = []int{R7,
+var RowsPins = []int{R7,
 	L3,
 	R10,
 	L6,
@@ -44,7 +45,7 @@ var rows = []int{R7,
 	L14,
 	R21}
 
-var cols = []int{L10,
+var ColPins = []int{L10,
 	L9,
 	L8,
 	L7,
@@ -54,7 +55,7 @@ var cols = []int{L10,
 	R16}
 
 func setRow(rowPin int) {
-	for _, r := range rows {
+	for _, r := range RowsPins {
 		p := rpio.Pin(r)
 		p.High()
 	}
@@ -70,8 +71,8 @@ func flash(col int) {
 }
 
 func cordinatesToLED(cord []int) {
-	setRow(rows[cord[1]])
-	flash(cols[cord[0]])
+	setRow(RowsPins[cord[1]])
+	flash(ColPins[cord[0]])
 }
 
 func letterToLED(l [][]int) [][]int {
@@ -96,15 +97,17 @@ func NewledGUI() (Screen, error) {
 		return nil, err
 	}
 	log.Println("New LED GUI")
-	for _, c := range cols {
+	for _, c := range ColPins {
 		log.Println("pin =", c)
 		p := rpio.Pin(c)
 		p.Output()
+		p.Low()
 	}
-	for _, c := range rows {
+	for _, c := range RowsPins {
 		log.Println("pin =", c)
 		p := rpio.Pin(c)
 		p.Output()
+		p.Low()
 	}
 	return &LEDGUI{}, nil
 }
@@ -127,5 +130,9 @@ func (s *LEDGUI) DisplayMatrix(matrix [][]int, t time.Duration) error {
 }
 
 func (*LEDGUI) Close() error {
+	allPins := append(RowsPins, ColPins...)
+	for _, p := range allPins {
+		rpio.Pin(p).Low()
+	}
 	return rpio.Close()
 }
