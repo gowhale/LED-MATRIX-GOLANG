@@ -3,6 +3,7 @@
 package gui
 
 import (
+	"elf-bar-awareness/pkg/config"
 	"fmt"
 	"log"
 	"time"
@@ -13,49 +14,30 @@ import (
 // consts starting with L represent left side pins
 // consts starting with R represent right side pins
 const (
-	L10 = 5
-	L9  = 6
-	L11 = 12
-	L8  = 13
-	L6  = 16
-	L7  = 19
-	L3  = 20
-	L14 = 21
-
-	R13 = 4
-	R16 = 17
-	R10 = 18
-	R15 = 22
-	R7  = 23
-	R8  = 24
-	R21 = 25
-	R18 = 26
-	R14 = 27
-
 	sleep          = 1 // amount of ms to keep single LED on whilst multiplexing
 	runTimeSeconds = 100
 )
 
-var RowsPins = []int{R7,
-	L3,
-	R10,
-	L6,
-	L11,
-	R18,
-	L14,
-	R21}
+// var RowsPins = []int{R7,
+// 	L3,
+// 	R10,
+// 	L6,
+// 	L11,
+// 	R18,
+// 	L14,
+// 	R21}
 
-var ColPins = []int{L10,
-	L9,
-	L8,
-	L7,
-	R13,
-	R14,
-	R15,
-	R16}
+// var ColPins = []int{L10,
+// 	L9,
+// 	L8,
+// 	L7,
+// 	R13,
+// 	R14,
+// 	R15,
+// 	R16}
 
-func setRowPinLow(rowPin int) {
-	for _, r := range RowsPins {
+func (s *LEDGUI) setRowPinLow(rowPin int) {
+	for _, r := range s.rowPins {
 		p := rpio.Pin(r)
 		p.High()
 	}
@@ -70,17 +52,17 @@ func setColPinHigh(col int) {
 	p.Low()
 }
 
-func CordinatesToLED(cord []int) {
-	setRowPinLow(RowsPins[cord[1]])
-	setColPinHigh(ColPins[cord[0]])
+func (s *LEDGUI) CordinatesToLED(cord [2]int) {
+	s.setRowPinLow(s.rowPins[cord[1]])
+	setColPinHigh(s.colPins[cord[0]])
 }
 
-func letterToLED(l [][]int) [][]int {
-	coordinates := [][]int{}
+func letterToLED(l [][]int) [][2]int {
+	coordinates := [][2]int{}
 	for i, row := range l {
 		for j, col := range row {
 			if col == VapeOn {
-				coordinates = append(coordinates, []int{j, i})
+				coordinates = append(coordinates, [2]int{j, i})
 			}
 		}
 	}
@@ -88,7 +70,8 @@ func letterToLED(l [][]int) [][]int {
 }
 
 type LEDGUI struct {
-	rows, cols int
+	rowsCount, colsCount int
+	rowPins, colPins     []int
 }
 
 // type matrixMapping struct{}
@@ -96,28 +79,30 @@ type LEDGUI struct {
 // func sizeValidation(rows, cols int) matrixMapping
 
 // NewledGUI returns ledGUI struct to display output on terminal
-func NewledGUI(rows, cols int) (Screen, error) {
+func NewledGUI(cfg config.PinConfig) (Screen, error) {
 	fmt.Println("opening gpio")
 	err := rpio.Open()
 	if err != nil {
 		return nil, err
 	}
 	log.Println("New LED GUI")
-	for _, c := range ColPins {
+	for _, c := range cfg.ColPins {
 		log.Println("pin =", c)
 		p := rpio.Pin(c)
 		p.Output()
 		p.Low()
 	}
-	for _, c := range RowsPins {
+	for _, c := range cfg.RowPins {
 		log.Println("pin =", c)
 		p := rpio.Pin(c)
 		p.Output()
 		p.Low()
 	}
 	return &LEDGUI{
-		rows: rows,
-		cols: cols,
+		rowsCount: cfg.RowCount(),
+		colsCount: cfg.ColCount(),
+		rowPins:   cfg.RowPins,
+		colPins:   cfg.ColPins,
 	}, nil
 }
 
@@ -132,14 +117,14 @@ func (s *LEDGUI) DisplayMatrix(matrix [][]int, t time.Duration) error {
 	coordinates := letterToLED(matrix)
 	for time.Since(startTime) < t {
 		for _, c := range coordinates {
-			CordinatesToLED(c)
+			s.CordinatesToLED(c)
 		}
 	}
 	return nil
 }
 
-func (*LEDGUI) Close() error {
-	allPins := append(RowsPins, ColPins...)
+func (l *LEDGUI) Close() error {
+	allPins := append(l.rowPins, l.colPins...)
 	for _, p := range allPins {
 		rpio.Pin(p).Low()
 	}
@@ -147,9 +132,9 @@ func (*LEDGUI) Close() error {
 }
 
 func (l *LEDGUI) Rows() int {
-	return l.rows
+	return l.rowsCount
 }
 
 func (l *LEDGUI) Cols() int {
-	return l.cols
+	return l.colsCount
 }

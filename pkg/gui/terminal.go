@@ -3,6 +3,7 @@
 package gui
 
 import (
+	"elf-bar-awareness/pkg/config"
 	"fmt"
 	"os"
 	"os/exec"
@@ -13,15 +14,15 @@ const (
 	amountOfHoursToWaitToEndDefer = 100
 )
 
-type terminalGui struct{
+type terminalGui struct {
 	cols, rows int
 }
 
 // NewTerminalGui returns terminalGui struct to display output on terminal
-func NewTerminalGui(rows, cols int) Screen {
+func NewTerminalGui(cfg config.PinConfig) Screen {
 	return &terminalGui{
-		rows: rows,
-		cols: cols,
+		rows: len(cfg.RowPins),
+		cols: len(cfg.ColPins),
 	}
 }
 
@@ -79,4 +80,8 @@ func (t *terminalGui) Rows() int {
 
 func (t *terminalGui) Cols() int {
 	return t.cols
+}
+
+func (t *terminalGui) CordinatesToLED(cord [2]int) {
+	
 }

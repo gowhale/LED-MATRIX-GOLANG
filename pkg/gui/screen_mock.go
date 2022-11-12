@@ -55,6 +55,11 @@ func (_m *MockScreen) Cols() int {
 	return r0
 }
 
+// CordinatesToLED provides a mock function with given fields: _a0
+func (_m *MockScreen) CordinatesToLED(_a0 [2]int) {
+	_m.Called(_a0)
+}
+
 // DisplayMatrix provides a mock function with given fields: matrix, displayDuration
 func (_m *MockScreen) DisplayMatrix(matrix [][]int, displayDuration time.Duration) error {
 	ret := _m.Called(matrix, displayDuration)

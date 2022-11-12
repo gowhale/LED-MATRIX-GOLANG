@@ -22,4 +22,5 @@ type Screen interface {
 	DisplayMatrix(matrix [][]int, displayDuration time.Duration) error // Displays matrix for x amount of time
 	Rows() int                                                         // Displays matrix for x amount of time
 	Cols() int                                                         // Displays matrix for x amount of time
+	CordinatesToLED([2]int)                                            // Displays matrix for x amount of time
 }
