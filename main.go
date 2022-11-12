@@ -13,7 +13,7 @@ import (
 const (
 	refreshTime   = time.Millisecond * 100
 	offsetLimit   = 1000
-	defaultConfig = "seven-by-seven.json"
+	defaultConfig = "eight-by-eight.json"
 )
 
 func main() {
