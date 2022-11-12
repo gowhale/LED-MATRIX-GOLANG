@@ -4,7 +4,6 @@ package gui
 
 import (
 	"elf-bar-awareness/pkg/config"
-	"fmt"
 	"log"
 	"time"
 
@@ -58,7 +57,7 @@ type LEDGUI struct {
 
 // NewledGUI returns ledGUI struct to display output on terminal
 func NewledGUI(cfg config.PinConfig) (Screen, error) {
-	fmt.Println("opening gpio")
+	log.Println("opening gpio")
 	err := rpio.Open()
 	if err != nil {
 		return nil, err
