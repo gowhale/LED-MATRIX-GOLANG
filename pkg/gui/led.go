@@ -57,24 +57,24 @@ type LEDGUI struct {
 
 // NewledGUI returns ledGUI struct to display output on terminal
 func NewledGUI(cfg config.PinConfig) (Screen, error) {
-	log.Println("opening gpio")
+	log.Println("Creating LED GUI. Opening gpio")
 	err := rpio.Open()
 	if err != nil {
 		return nil, err
 	}
-	log.Println("New LED GUI")
+	
+	log.Println("Setting all pins to low")
 	for _, c := range cfg.ColPins {
-		log.Println("pin =", c)
 		p := rpio.Pin(c)
 		p.Output()
 		p.Low()
 	}
 	for _, c := range cfg.RowPins {
-		log.Println("pin =", c)
 		p := rpio.Pin(c)
 		p.Output()
 		p.Low()
 	}
+
 	return &LEDGUI{
 		rowCount: cfg.RowCount(),
 		colCount: cfg.ColCount(),

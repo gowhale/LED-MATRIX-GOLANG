@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	refreshTime   = time.Millisecond * 1000
+	refreshTime   = time.Millisecond * 100
 	offsetLimit   = 1000
 	defaultConfig = "seven-by-seven.json"
 )
