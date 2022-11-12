@@ -13,11 +13,16 @@ const (
 	amountOfHoursToWaitToEndDefer = 100
 )
 
-type terminalGui struct{}
+type terminalGui struct{
+	cols, rows int
+}
 
 // NewTerminalGui returns terminalGui struct to display output on terminal
-func NewTerminalGui() Screen {
-	return &terminalGui{}
+func NewTerminalGui(rows, cols int) Screen {
+	return &terminalGui{
+		rows: rows,
+		cols: cols,
+	}
 }
 
 // AllVapesOff clears the termina
@@ -66,4 +71,12 @@ func lightVape(s Screen, col, count int) error {
 	}
 	_, err := fmt.Printf(" ")
 	return err
+}
+
+func (t *terminalGui) Rows() int {
+	return t.rows
+}
+
+func (t *terminalGui) Cols() int {
+	return t.cols
 }

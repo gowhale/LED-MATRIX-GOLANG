@@ -10,19 +10,30 @@ import (
 )
 
 const (
-	refreshTime = time.Second
-	offsetLimit = 1000
+	refreshTime       = time.Millisecond * 50
+	offsetLimit       = 1000
+	defaultMatrixSize = 8
 )
 
 func main() {
 	// Use the below command just to run in terminal
 	// go run . --debug
 	var debugMode = flag.Bool("debug", false, "run in debug mode")
+	var rowCount = flag.Int("rows", defaultMatrixSize, "run in debug mode")
+	var colCount = flag.Int("cols", defaultMatrixSize, "run in debug mode")
 	flag.Parse()
-	screen := gui.NewTerminalGui()
+
+	if *rowCount == *colCount && *colCount == defaultMatrixSize {
+		log.Printf("Using default row col size of %d\n", defaultMatrixSize)
+	}
+	log.Printf("cols=%d rows=%d", *colCount, *rowCount)
+
+	time.Sleep(time.Second)
+
+	screen := gui.NewTerminalGui(*rowCount, *colCount)
 	if !*debugMode {
 		var err error
-		screen, err = gui.NewledGUI()
+		screen, err = gui.NewledGUI(*rowCount, *colCount)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -40,7 +51,7 @@ func main() {
 		log.Panicln(err)
 	}
 	for offset := mx.OffsetStart; offset < offsetLimit; offset++ {
-		trimmedMatrix, err := mx.TrimMatrix(matrix, gui.Rows, gui.Columns, offset)
+		trimmedMatrix, err := mx.TrimMatrix(matrix, *rowCount, *colCount, offset)
 		if err != nil {
 			log.Fatalln(err)
 		}

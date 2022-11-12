@@ -41,6 +41,20 @@ func (_m *MockScreen) Close() error {
 	return r0
 }
 
+// Cols provides a mock function with given fields:
+func (_m *MockScreen) Cols() int {
+	ret := _m.Called()
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func() int); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	return r0
+}
+
 // DisplayMatrix provides a mock function with given fields: matrix, displayDuration
 func (_m *MockScreen) DisplayMatrix(matrix [][]int, displayDuration time.Duration) error {
 	ret := _m.Called(matrix, displayDuration)
@@ -50,6 +64,20 @@ func (_m *MockScreen) DisplayMatrix(matrix [][]int, displayDuration time.Duratio
 		r0 = rf(matrix, displayDuration)
 	} else {
 		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Rows provides a mock function with given fields:
+func (_m *MockScreen) Rows() int {
+	ret := _m.Called()
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func() int); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(int)
 	}
 
 	return r0
