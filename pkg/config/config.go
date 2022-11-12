@@ -12,26 +12,23 @@ type PinConfig struct {
 	ColPins []int `json:"cols"`
 }
 
-func LoadConfig(fileName string) PinConfig {
-	file, _ := ioutil.ReadFile(fmt.Sprintf("config-files/%s", fileName))
+func LoadConfig(fileName string) (PinConfig, error) {
+	file, err := ioutil.ReadFile(fmt.Sprintf("config-files/%s", fileName))
+	if err != nil {
+		return PinConfig{}, err
+	}
 
 	config := PinConfig{}
 
-	err := json.Unmarshal([]byte(file), &config)
+	err = json.Unmarshal([]byte(file), &config)
 	if err != nil {
-		log.Fatal(err)
+		return PinConfig{}, err
 	}
 
-	log.Println("col pins")
-	for _, pin := range config.ColPins {
-		log.Println(pin)
-	}
+	log.Printf("row pins = %+v", config.RowPins)
+	log.Printf("col pins = %+v", config.ColPins)
 
-	log.Println("row pins")
-	for _, pin := range config.RowPins {
-		log.Println(pin)
-	}
-	return config
+	return config, nil
 }
 
 func (cfg *PinConfig) RowCount() int {

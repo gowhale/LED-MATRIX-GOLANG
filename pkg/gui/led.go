@@ -18,24 +18,6 @@ const (
 	runTimeSeconds = 100
 )
 
-// var RowsPins = []int{R7,
-// 	L3,
-// 	R10,
-// 	L6,
-// 	L11,
-// 	R18,
-// 	L14,
-// 	R21}
-
-// var ColPins = []int{L10,
-// 	L9,
-// 	L8,
-// 	L7,
-// 	R13,
-// 	R14,
-// 	R15,
-// 	R16}
-
 func (s *LEDGUI) setRowPinLow(rowPin int) {
 	for _, r := range s.rowPins {
 		p := rpio.Pin(r)
@@ -52,17 +34,17 @@ func setColPinHigh(col int) {
 	p.Low()
 }
 
-func (s *LEDGUI) CordinatesToLED(cord [2]int) {
+func (s *LEDGUI) CordinatesToLED(cord coordinate) {
 	s.setRowPinLow(s.rowPins[cord[1]])
 	setColPinHigh(s.colPins[cord[0]])
 }
 
-func letterToLED(l [][]int) [][2]int {
-	coordinates := [][2]int{}
+func letterToLED(l [][]int) []coordinate {
+	coordinates := []coordinate{}
 	for i, row := range l {
 		for j, col := range row {
 			if col == VapeOn {
-				coordinates = append(coordinates, [2]int{j, i})
+				coordinates = append(coordinates, coordinate{j, i})
 			}
 		}
 	}
@@ -70,13 +52,9 @@ func letterToLED(l [][]int) [][2]int {
 }
 
 type LEDGUI struct {
-	rowsCount, colsCount int
-	rowPins, colPins     []int
+	rowCount, colCount int
+	rowPins, colPins   []int
 }
-
-// type matrixMapping struct{}
-
-// func sizeValidation(rows, cols int) matrixMapping
 
 // NewledGUI returns ledGUI struct to display output on terminal
 func NewledGUI(cfg config.PinConfig) (Screen, error) {
@@ -99,10 +77,10 @@ func NewledGUI(cfg config.PinConfig) (Screen, error) {
 		p.Low()
 	}
 	return &LEDGUI{
-		rowsCount: cfg.RowCount(),
-		colsCount: cfg.ColCount(),
-		rowPins:   cfg.RowPins,
-		colPins:   cfg.ColPins,
+		rowCount: cfg.RowCount(),
+		colCount: cfg.ColCount(),
+		rowPins:  cfg.RowPins,
+		colPins:  cfg.ColPins,
 	}, nil
 }
 
@@ -132,9 +110,9 @@ func (l *LEDGUI) Close() error {
 }
 
 func (l *LEDGUI) Rows() int {
-	return l.rowsCount
+	return l.rowCount
 }
 
 func (l *LEDGUI) Cols() int {
-	return l.colsCount
+	return l.colCount
 }

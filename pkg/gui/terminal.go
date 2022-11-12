@@ -15,14 +15,14 @@ const (
 )
 
 type terminalGui struct {
-	cols, rows int
+	colCount, rowCount int
 }
 
 // NewTerminalGui returns terminalGui struct to display output on terminal
 func NewTerminalGui(cfg config.PinConfig) Screen {
 	return &terminalGui{
-		rows: len(cfg.RowPins),
-		cols: len(cfg.ColPins),
+		rowCount: len(cfg.RowPins),
+		colCount: len(cfg.ColPins),
 	}
 }
 
@@ -75,13 +75,13 @@ func lightVape(s Screen, col, count int) error {
 }
 
 func (t *terminalGui) Rows() int {
-	return t.rows
+	return t.rowCount
 }
 
 func (t *terminalGui) Cols() int {
-	return t.cols
+	return t.colCount
 }
 
-func (t *terminalGui) CordinatesToLED(cord [2]int) {
-	
+func (t *terminalGui) CordinatesToLED(cord coordinate) {
+
 }

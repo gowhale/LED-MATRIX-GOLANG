@@ -56,7 +56,7 @@ func (_m *MockScreen) Cols() int {
 }
 
 // CordinatesToLED provides a mock function with given fields: _a0
-func (_m *MockScreen) CordinatesToLED(_a0 [2]int) {
+func (_m *MockScreen) CordinatesToLED(_a0 coordinate) {
 	_m.Called(_a0)
 }
 

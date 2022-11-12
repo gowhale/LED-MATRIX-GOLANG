@@ -27,8 +27,10 @@ func main() {
 		log.Printf("Using default config file %s\n", defaultConfig)
 	}
 
-	cfg := config.LoadConfig(defaultConfig)
-	// cfg := config.LoadConfig("seven-by-seven.json")
+	cfg, err := config.LoadConfig(defaultConfig)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	log.Printf("cols=%d rows=%d", len(cfg.ColPins), len(cfg.RowPins))
 
@@ -45,7 +47,7 @@ func main() {
 	defer func() {
 		err := screen.Close()
 		if err != nil {
-			log.Println(err)
+			log.Fatal(err)
 		}
 	}()
 

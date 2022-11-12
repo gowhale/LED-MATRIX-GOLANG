@@ -35,7 +35,7 @@ func (t *terminalSuite) Test_NewTerminalGui() {
 	cfg := config.PinConfig{RowPins: []int{1, 3, 4, 5, 6, 7, 8, 9}, ColPins: []int{10, 11, 12, 13, 14, 15, 16, 17}}
 	newT := NewTerminalGui(cfg)
 	t.Equal(&terminalGui{
-		rows: 8,
-		cols: 8,
+		rowCount: 8,
+		colCount: 8,
 	}, newT)
 }
