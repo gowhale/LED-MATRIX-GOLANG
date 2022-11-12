@@ -5,10 +5,6 @@ package gui
 import "time"
 
 const (
-	//Rows is the amount of rows in the display
-	Rows = 8
-	//Columns is the amount of columns in the display
-	Columns = 8
 	//VapeOn is the value for when a vape light is on
 	VapeOn = 1
 	//VapeOff is the value for when a vape light is off
@@ -24,4 +20,6 @@ type Screen interface {
 	AllVapesOff() error                                                // Set all vapes to off
 	Close() error                                                      // Defer to prevent errors next run
 	DisplayMatrix(matrix [][]int, displayDuration time.Duration) error // Displays matrix for x amount of time
+	Rows() int                                                         // Displays matrix for x amount of time
+	Cols() int                                                         // Displays matrix for x amount of time
 }

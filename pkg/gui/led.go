@@ -13,24 +13,24 @@ import (
 // consts starting with L represent left side pins
 // consts starting with R represent right side pins
 const (
-	L3  = 20
+	L10 = 5
+	L9  = 6
+	L11 = 12
+	L8  = 13
 	L6  = 16
 	L7  = 19
-	L8  = 13
-	L9  = 6
-	L10 = 5
-	L11 = 12
+	L3  = 20
 	L14 = 21
 
+	R13 = 4
+	R16 = 17
+	R10 = 18
+	R15 = 22
 	R7  = 23
 	R8  = 24
-	R10 = 18
-	R13 = 4
-	R14 = 27
-	R15 = 22
-	R16 = 17
-	R18 = 26
 	R21 = 25
+	R18 = 26
+	R14 = 27
 
 	sleep          = 1 // amount of ms to keep single LED on whilst multiplexing
 	runTimeSeconds = 100
@@ -54,7 +54,7 @@ var ColPins = []int{L10,
 	R15,
 	R16}
 
-func setRow(rowPin int) {
+func setRowPinLow(rowPin int) {
 	for _, r := range RowsPins {
 		p := rpio.Pin(r)
 		p.High()
@@ -63,16 +63,16 @@ func setRow(rowPin int) {
 	p.Low()
 }
 
-func flash(col int) {
+func setColPinHigh(col int) {
 	p := rpio.Pin(col)
 	p.High()
 	time.Sleep(time.Microsecond * sleep)
 	p.Low()
 }
 
-func cordinatesToLED(cord []int) {
-	setRow(RowsPins[cord[1]])
-	flash(ColPins[cord[0]])
+func CordinatesToLED(cord []int) {
+	setRowPinLow(RowsPins[cord[1]])
+	setColPinHigh(ColPins[cord[0]])
 }
 
 func letterToLED(l [][]int) [][]int {
@@ -87,10 +87,16 @@ func letterToLED(l [][]int) [][]int {
 	return coordinates
 }
 
-type LEDGUI struct{}
+type LEDGUI struct {
+	rows, cols int
+}
+
+// type matrixMapping struct{}
+
+// func sizeValidation(rows, cols int) matrixMapping
 
 // NewledGUI returns ledGUI struct to display output on terminal
-func NewledGUI() (Screen, error) {
+func NewledGUI(rows, cols int) (Screen, error) {
 	fmt.Println("opening gpio")
 	err := rpio.Open()
 	if err != nil {
@@ -109,7 +115,10 @@ func NewledGUI() (Screen, error) {
 		p.Output()
 		p.Low()
 	}
-	return &LEDGUI{}, nil
+	return &LEDGUI{
+		rows: rows,
+		cols: cols,
+	}, nil
 }
 
 // AllVapesOff clears the termina
@@ -123,7 +132,7 @@ func (s *LEDGUI) DisplayMatrix(matrix [][]int, t time.Duration) error {
 	coordinates := letterToLED(matrix)
 	for time.Since(startTime) < t {
 		for _, c := range coordinates {
-			cordinatesToLED(c)
+			CordinatesToLED(c)
 		}
 	}
 	return nil
@@ -135,4 +144,12 @@ func (*LEDGUI) Close() error {
 		rpio.Pin(p).Low()
 	}
 	return rpio.Close()
+}
+
+func (l *LEDGUI) Rows() int {
+	return l.rows
+}
+
+func (l *LEDGUI) Cols() int {
+	return l.cols
 }

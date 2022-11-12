@@ -31,6 +31,9 @@ func (t *terminalSuite) Test_DisplayMatrix_Pass() {
 }
 
 func (t *terminalSuite) Test_NewTerminalGui() {
-	newT := NewTerminalGui()
-	t.Equal(&terminalGui{}, newT)
+	newT := NewTerminalGui(8, 8)
+	t.Equal(&terminalGui{
+		rows: 8,
+		cols: 8,
+	}, newT)
 }
