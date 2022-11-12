@@ -3,6 +3,7 @@
 package gui
 
 import (
+	"elf-bar-awareness/pkg/config"
 	"fmt"
 	"os"
 	"os/exec"
@@ -13,15 +14,15 @@ const (
 	amountOfHoursToWaitToEndDefer = 100
 )
 
-type terminalGui struct{
-	cols, rows int
+type terminalGui struct {
+	colCount, rowCount int
 }
 
 // NewTerminalGui returns terminalGui struct to display output on terminal
-func NewTerminalGui(rows, cols int) Screen {
+func NewTerminalGui(cfg config.PinConfig) Screen {
 	return &terminalGui{
-		rows: rows,
-		cols: cols,
+		rowCount: len(cfg.RowPins),
+		colCount: len(cfg.ColPins),
 	}
 }
 
@@ -74,9 +75,13 @@ func lightVape(s Screen, col, count int) error {
 }
 
 func (t *terminalGui) Rows() int {
-	return t.rows
+	return t.rowCount
 }
 
 func (t *terminalGui) Cols() int {
-	return t.cols
+	return t.colCount
+}
+
+func (t *terminalGui) CordinatesToLED(cord coordinate) {
+
 }

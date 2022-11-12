@@ -14,6 +14,7 @@ var LetterMap = map[string][][]int{
 	" ": space,
 	"a": letterA,
 	"b": letterB,
+	"c": letterC,
 	"d": letterD,
 	"e": letterE,
 	"f": letterF,
@@ -22,6 +23,7 @@ var LetterMap = map[string][][]int{
 	"l": letterL,
 	"m": letterM,
 	"o": letterO,
+	"p": letterP,
 	"r": letterR,
 	"s": letterS,
 	"t": letterT,
@@ -47,6 +49,30 @@ var letterA = [][]int{
 	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
 	fullRow,
 	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+}
+
+var letterC = [][]int{
+	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
+}
+
+var letterD = [][]int{
+	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
+}
+
+var letterP = [][]int{
+	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
+	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
 }
 
 var letterE = [][]int{
@@ -87,14 +113,6 @@ var letterO = [][]int{
 	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
 	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
 	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
-}
-
-var letterD = [][]int{
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
 }
 
 var letterU = [][]int{

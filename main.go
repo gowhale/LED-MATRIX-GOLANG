@@ -2,6 +2,7 @@
 package main
 
 import (
+	"elf-bar-awareness/pkg/config"
 	"elf-bar-awareness/pkg/gui"
 	mx "elf-bar-awareness/pkg/matrix"
 	"flag"
@@ -10,30 +11,35 @@ import (
 )
 
 const (
-	refreshTime       = time.Millisecond * 50
-	offsetLimit       = 1000
-	defaultMatrixSize = 8
+	refreshTime   = time.Millisecond * 100
+	offsetLimit   = 1000
+	defaultConfig = "eight-by-eight.json"
 )
 
 func main() {
 	// Use the below command just to run in terminal
 	// go run . --debug
 	var debugMode = flag.Bool("debug", false, "run in debug mode")
-	var rowCount = flag.Int("rows", defaultMatrixSize, "run in debug mode")
-	var colCount = flag.Int("cols", defaultMatrixSize, "run in debug mode")
+	var configName = flag.String("config", defaultConfig, "run in debug mode")
 	flag.Parse()
 
-	if *rowCount == *colCount && *colCount == defaultMatrixSize {
-		log.Printf("Using default row col size of %d\n", defaultMatrixSize)
+	if *configName == defaultConfig {
+		log.Printf("Using default config file %s\n", defaultConfig)
 	}
-	log.Printf("cols=%d rows=%d", *colCount, *rowCount)
+
+	cfg, err := config.LoadConfig(defaultConfig)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("cols=%d rows=%d", len(cfg.ColPins), len(cfg.RowPins))
 
 	time.Sleep(time.Second)
 
-	screen := gui.NewTerminalGui(*rowCount, *colCount)
+	screen := gui.NewTerminalGui(cfg)
 	if !*debugMode {
 		var err error
-		screen, err = gui.NewledGUI(*rowCount, *colCount)
+		screen, err = gui.NewledGUI(cfg)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -41,17 +47,17 @@ func main() {
 	defer func() {
 		err := screen.Close()
 		if err != nil {
-			log.Println(err)
+			log.Fatal(err)
 		}
 	}()
 
-	word := "lets get ready to rumble"
+	word := "lets go champ"
 	matrix, err := mx.ConcatanateLetters(word)
 	if err != nil {
 		log.Panicln(err)
 	}
 	for offset := mx.OffsetStart; offset < offsetLimit; offset++ {
-		trimmedMatrix, err := mx.TrimMatrix(matrix, *rowCount, *colCount, offset)
+		trimmedMatrix, err := mx.TrimMatrix(matrix, cfg, offset)
 		if err != nil {
 			log.Fatalln(err)
 		}

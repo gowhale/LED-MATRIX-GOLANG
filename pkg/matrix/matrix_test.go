@@ -3,6 +3,7 @@
 package matrix
 
 import (
+	"elf-bar-awareness/pkg/config"
 	"elf-bar-awareness/pkg/gui"
 	"testing"
 
@@ -27,8 +28,12 @@ func TestQuizTestSuite(t *testing.T) {
 
 func (t *matrixSuite) Test_DisplayMatrix_Pass() {
 	testMatrix := [][]int{{gui.VapeOff, gui.VapeOff, gui.VapeOff, gui.VapeOff, gui.VapeOff}}
+	cfg := config.PinConfig{
+		ColPins: make([]int, testCols),
+		RowPins: make([]int, testRows),
+	}
 
-	m, err := TrimMatrix(testMatrix, testRows, testCols, testOffSet)
+	m, err := TrimMatrix(testMatrix, cfg, testOffSet)
 	t.Equal(testMatrix, m)
 	t.Nil(err)
 }

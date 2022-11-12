@@ -13,6 +13,8 @@ const (
 	rowColStartIndex = 0
 )
 
+type coordinate [2]int // represents an x and y on matrix
+
 // Screen represents a screen or hardware visual output
 //
 //go:generate go run github.com/vektra/mockery/cmd/mockery -name Screen -inpkg --filename screen_mock.go
@@ -22,4 +24,5 @@ type Screen interface {
 	DisplayMatrix(matrix [][]int, displayDuration time.Duration) error // Displays matrix for x amount of time
 	Rows() int                                                         // Displays matrix for x amount of time
 	Cols() int                                                         // Displays matrix for x amount of time
+	CordinatesToLED(coordinate)                                        // Displays matrix for x amount of time
 }
