@@ -1,8 +1,9 @@
-module elf-bar-awareness
+module led-matrix
 
 go 1.17
 
 require (
+	github.com/gowhale/go-test-data v1.0.0
 	github.com/stianeikeland/go-rpio v4.2.0+incompatible
 	github.com/stretchr/testify v1.7.2
 )

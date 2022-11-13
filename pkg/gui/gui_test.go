@@ -4,6 +4,7 @@ package gui
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
@@ -35,6 +36,6 @@ func (t *guiSuite) Test_DisplayMatrix_Pass() {
 	t.mockScreen.On(vOnFuncName, mock.Anything).Return(nil)
 	t.mockScreen.On(newRowFuncName).Return(nil)
 
-	err := DisplayMatrix(testMatrix)
+	err := displayLEDMatrix(testMatrix, time.Microsecond, t.mockScreen)
 	t.Nil(err)
 }

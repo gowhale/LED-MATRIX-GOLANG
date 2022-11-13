@@ -18,8 +18,12 @@ type PinConfig struct {
 }
 
 // LoadConfig will load a json file and return PinConfig
-func LoadConfig(fileName string) (PinConfig, error) {
-	file, err := ioutil.ReadFile(fmt.Sprintf("config-files/%s", fileName))
+func LoadConfig(filename string) (PinConfig, error) {
+	return loadConfigImpl(&readJSON{}, filename)
+}
+
+func loadConfigImpl(jReader readerJSON, filename string) (PinConfig, error) {
+	file, err := jReader.ReadFile(fmt.Sprintf("config-files/%s", filename))
 	if err != nil {
 		return PinConfig{}, err
 	}
@@ -45,4 +49,15 @@ func (cfg *PinConfig) RowCount() int {
 // ColCount returns the amount of cols specified in a Config file
 func (cfg *PinConfig) ColCount() int {
 	return len(cfg.ColPins)
+}
+
+type readJSON struct{}
+
+//go:generate go run github.com/vektra/mockery/cmd/mockery -name readerJSON -inpkg --filename read_json_mock.go
+type readerJSON interface {
+	ReadFile(filename string) ([]byte, error)
+}
+
+func (*readJSON) ReadFile(filename string) ([]byte, error) {
+	return ioutil.ReadFile(fmt.Sprintf("config-files/%s", filename))
 }

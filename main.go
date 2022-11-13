@@ -2,10 +2,10 @@
 package main
 
 import (
-	"elf-bar-awareness/pkg/config"
-	"elf-bar-awareness/pkg/gui"
-	mx "elf-bar-awareness/pkg/matrix"
 	"flag"
+	"led-matrix/pkg/config"
+	"led-matrix/pkg/gui"
+	mx "led-matrix/pkg/matrix"
 	"log"
 	"time"
 )
