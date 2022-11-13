@@ -10,10 +10,6 @@ import (
 	"time"
 )
 
-const (
-	amountOfHoursToWaitToEndDefer = 100
-)
-
 type terminalGui struct {
 	colCount, rowCount int
 }

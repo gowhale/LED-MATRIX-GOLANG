@@ -14,7 +14,6 @@ import (
 // consts starting with R represent right side pins
 const (
 	sleep          = 1 // amount of ms to keep single LED on whilst multiplexing
-	runTimeSeconds = 100
 )
 
 func (s *LEDGUI) setRowPinLow(rowPin int) {
