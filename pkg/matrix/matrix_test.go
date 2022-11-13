@@ -3,8 +3,8 @@
 package matrix
 
 import (
-	"elf-bar-awareness/pkg/config"
-	"elf-bar-awareness/pkg/gui"
+	"led-matrix/pkg/config"
+	"led-matrix/pkg/gui"
 	"testing"
 
 	"github.com/stretchr/testify/suite"

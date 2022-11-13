@@ -1,9 +1,9 @@
 package matrix
 
 import (
-	"elf-bar-awareness/pkg/config"
-	"elf-bar-awareness/pkg/gui"
 	"fmt"
+	"led-matrix/pkg/config"
+	"led-matrix/pkg/gui"
 )
 
 const (

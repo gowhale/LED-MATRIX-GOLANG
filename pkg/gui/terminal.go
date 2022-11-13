@@ -3,8 +3,8 @@
 package gui
 
 import (
-	"elf-bar-awareness/pkg/config"
 	"fmt"
+	"led-matrix/pkg/config"
 	"os"
 	"os/exec"
 	"time"
