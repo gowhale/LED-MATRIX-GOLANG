@@ -3,10 +3,10 @@
 package gui
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -25,17 +25,24 @@ func (t *guiSuite) SetupTest() {
 	t.mockScreen = new(MockScreen)
 }
 
-func TestQuizTestSuite(t *testing.T) {
+func TestGuiSuite(t *testing.T) {
 	suite.Run(t, new(guiSuite))
 }
 
-func (t *guiSuite) Test_DisplayMatrix_Pass() {
-	testMatrix := letterA
+func (t *guiSuite) Test_displayLEDMatrix_Pass() {
+	testMatrix := [][]int{{LEDOn}}
 
-	t.mockScreen.On(vOffFuncName, mock.Anything).Return(nil)
-	t.mockScreen.On(vOnFuncName, mock.Anything).Return(nil)
-	t.mockScreen.On(newRowFuncName).Return(nil)
+	t.mockScreen.On("CordinatesToLED", coordinate{0, 0}).Return(nil)
 
-	err := displayLEDMatrix(testMatrix, time.Microsecond, t.mockScreen)
+	err := displayLEDMatrix(testMatrix, time.Millisecond*500, t.mockScreen)
 	t.Nil(err)
+}
+
+func (t *guiSuite) Test_displayLEDMatrix_Error() {
+	testMatrix := [][]int{{LEDOn}}
+
+	t.mockScreen.On("CordinatesToLED", coordinate{0, 0}).Return(fmt.Errorf("cord error"))
+
+	err := displayLEDMatrix(testMatrix, time.Millisecond*500, t.mockScreen)
+	t.EqualError(err, "cord error")
 }
