@@ -3,7 +3,7 @@
 package gui
 
 const (
-	//LetterWidth is how many vapes wide a single letter is
+	//LetterWidth is how many LED's wide a single letter is
 	LetterWidth = 5
 )
 
@@ -32,8 +32,8 @@ var LetterMap = map[string][][]int{
 	"y": letterY,
 }
 
-var fullRow = []int{VapeOn, VapeOn, VapeOn, VapeOn, VapeOn}
-var emptyRow = []int{VapeOff, VapeOff, VapeOff, VapeOff, VapeOff}
+var fullRow = []int{LEDOn, LEDOn, LEDOn, LEDOn, LEDOn}
+var emptyRow = []int{LEDOff, LEDOff, LEDOff, LEDOff, LEDOff}
 
 var space = [][]int{
 	emptyRow,
@@ -44,145 +44,145 @@ var space = [][]int{
 }
 
 var letterA = [][]int{
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
-	{VapeOff, VapeOn, VapeOff, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOn, LEDOff, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
 	fullRow,
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
 }
 
 var letterC = [][]int{
-	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
 }
 
 var letterD = [][]int{
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
 }
 
 var letterP = [][]int{
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
 }
 
 var letterE = [][]int{
 	fullRow,
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
 	fullRow,
 }
 
 var letterF = [][]int{
 	fullRow,
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOn, VapeOn, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
 }
 
 var letterG = [][]int{
-	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOn, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOn},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOn, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOn},
 }
 
 var letterL = [][]int{
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
 	fullRow,
 }
 
 var letterO = [][]int{
-	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
 }
 
 var letterU = [][]int{
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOff, VapeOn, VapeOn, VapeOn, VapeOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
 }
 
 var letterM = [][]int{
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOff, VapeOn, VapeOn},
-	{VapeOn, VapeOff, VapeOn, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOff, LEDOn, LEDOn},
+	{LEDOn, LEDOff, LEDOn, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
 }
 
 var letterR = [][]int{
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
 }
 
 var letterB = [][]int{
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
 }
 
 var letterT = [][]int{
 	fullRow,
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
 }
 
 var letterH = [][]int{
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
 	fullRow,
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
 }
 
 var letterS = [][]int{
 	fullRow,
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
 	fullRow,
-	{VapeOff, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
 	fullRow,
 }
 
 var letterW = [][]int{
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOn, VapeOff, VapeOn, VapeOff, VapeOn},
-	{VapeOn, VapeOn, VapeOn, VapeOn, VapeOn},
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOn, LEDOff, LEDOn, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOn},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
 }
 
 var letterY = [][]int{
-	{VapeOn, VapeOff, VapeOff, VapeOff, VapeOn},
-	{VapeOff, VapeOn, VapeOff, VapeOn, VapeOff},
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
-	{VapeOff, VapeOff, VapeOn, VapeOff, VapeOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOn, LEDOff, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
 }

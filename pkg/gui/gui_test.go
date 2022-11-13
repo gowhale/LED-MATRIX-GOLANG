@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	vOffFuncName   = "VapeLightOff"
-	vOnFuncName    = "VapeLightOn"
+	vOffFuncName   = "LEDOff"
+	vOnFuncName    = "LEDOn"
 	newRowFuncName = "NewRow"
 )
 
@@ -35,6 +35,6 @@ func (t *guiSuite) Test_DisplayMatrix_Pass() {
 	t.mockScreen.On(vOnFuncName, mock.Anything).Return(nil)
 	t.mockScreen.On(newRowFuncName).Return(nil)
 
-	err := DisplayMatrix(t.mockScreen, testMatrix)
+	err := DisplayMatrix(testMatrix)
 	t.Nil(err)
 }

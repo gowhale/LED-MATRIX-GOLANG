@@ -50,7 +50,10 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
+	run(screen, cfg)
+}
 
+func run(screen gui.Screen, cfg config.PinConfig) {
 	word := "lets go champ"
 	matrix, err := mx.ConcatanateLetters(word)
 	if err != nil {
@@ -61,7 +64,7 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		if err := screen.AllVapesOff(); err != nil {
+		if err := screen.AllLEDSOff(); err != nil {
 			log.Fatalln(err)
 		}
 		if err := screen.DisplayMatrix(trimmedMatrix, refreshTime); err != nil {

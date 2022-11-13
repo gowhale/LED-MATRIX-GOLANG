@@ -5,10 +5,10 @@ package gui
 import "time"
 
 const (
-	//VapeOn is the value for when a vape light is on
-	VapeOn = 1
-	//VapeOff is the value for when a vape light is off
-	VapeOff = 0
+	//LEDOn is the value for when a light is on
+	LEDOn = 1
+	//LEDOff is the value for when a light is off
+	LEDOff = 0
 
 	rowColStartIndex = 0
 )
@@ -19,10 +19,8 @@ type coordinate [2]int // represents an x and y on matrix
 //
 //go:generate go run github.com/vektra/mockery/cmd/mockery -name Screen -inpkg --filename screen_mock.go
 type Screen interface {
-	AllVapesOff() error                                                // Set all vapes to off
+	AllLEDSOff() error                                                 // Set all LEDS to off
 	Close() error                                                      // Defer to prevent errors next run
 	DisplayMatrix(matrix [][]int, displayDuration time.Duration) error // Displays matrix for x amount of time
-	Rows() int                                                         // Displays matrix for x amount of time
-	Cols() int                                                         // Displays matrix for x amount of time
-	CordinatesToLED(coordinate)                                        // Displays matrix for x amount of time
+	CordinatesToLED(coordinate)                                        // CordinatesToLED lights up a matrix's light at specified coordinate
 }

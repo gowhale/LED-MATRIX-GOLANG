@@ -13,12 +13,47 @@ import (
 // consts starting with L represent left side pins
 // consts starting with R represent right side pins
 const (
-	sleep          = 1 // amount of ms to keep single LED on whilst multiplexing
-	runTimeSeconds = 100
+	sleep = 1 // amount of ms to keep single LED on whilst multiplexing
+
+	cordXIndex = 0
+	cordYIndex = 0
 )
 
-func (s *LEDGUI) setRowPinLow(rowPin int) {
-	for _, r := range s.rowPins {
+type guiLED struct {
+	rowCount, colCount int
+	rowPins, colPins   []int
+}
+
+// NewledGUI returns ledGUI struct to display output on terminal
+func NewledGUI(cfg config.PinConfig) (Screen, error) {
+	log.Println("Creating LED GUI. Opening gpio")
+	err := rpio.Open()
+	if err != nil {
+		return nil, err
+	}
+
+	log.Println("Setting all pins to low")
+	for _, c := range cfg.ColPins {
+		p := rpio.Pin(c)
+		p.Output()
+		p.Low()
+	}
+	for _, c := range cfg.RowPins {
+		p := rpio.Pin(c)
+		p.Output()
+		p.Low()
+	}
+
+	return &guiLED{
+		rowCount: cfg.RowCount(),
+		colCount: cfg.ColCount(),
+		rowPins:  cfg.RowPins,
+		colPins:  cfg.ColPins,
+	}, nil
+}
+
+func (l *guiLED) setRowPinLow(rowPin int) {
+	for _, r := range l.rowPins {
 		p := rpio.Pin(r)
 		p.High()
 	}
@@ -33,16 +68,18 @@ func setColPinHigh(col int) {
 	p.Low()
 }
 
-func (s *LEDGUI) CordinatesToLED(cord coordinate) {
-	s.setRowPinLow(s.rowPins[cord[1]])
-	setColPinHigh(s.colPins[cord[0]])
+// CordinatesToLED lights up a matrix's light at specified coordinate
+// Only lights temporarily used for multiplexing the lights
+func (l *guiLED) CordinatesToLED(cord coordinate) {
+	l.setRowPinLow(l.rowPins[cord[cordYIndex]])
+	setColPinHigh(l.colPins[cord[cordXIndex]])
 }
 
 func letterToLED(l [][]int) []coordinate {
 	coordinates := []coordinate{}
 	for i, row := range l {
 		for j, col := range row {
-			if col == VapeOn {
+			if col == LEDOn {
 				coordinates = append(coordinates, coordinate{j, i})
 			}
 		}
@@ -50,68 +87,28 @@ func letterToLED(l [][]int) []coordinate {
 	return coordinates
 }
 
-type LEDGUI struct {
-	rowCount, colCount int
-	rowPins, colPins   []int
-}
-
-// NewledGUI returns ledGUI struct to display output on terminal
-func NewledGUI(cfg config.PinConfig) (Screen, error) {
-	log.Println("Creating LED GUI. Opening gpio")
-	err := rpio.Open()
-	if err != nil {
-		return nil, err
-	}
-	
-	log.Println("Setting all pins to low")
-	for _, c := range cfg.ColPins {
-		p := rpio.Pin(c)
-		p.Output()
-		p.Low()
-	}
-	for _, c := range cfg.RowPins {
-		p := rpio.Pin(c)
-		p.Output()
-		p.Low()
-	}
-
-	return &LEDGUI{
-		rowCount: cfg.RowCount(),
-		colCount: cfg.ColCount(),
-		rowPins:  cfg.RowPins,
-		colPins:  cfg.ColPins,
-	}, nil
-}
-
-// AllVapesOff clears the termina
-func (*LEDGUI) AllVapesOff() error {
+// AllLEDSOff clears the termina
+func (*guiLED) AllLEDSOff() error {
 	return nil
 }
 
 // DisplayMatrix displays the matrix provided
-func (s *LEDGUI) DisplayMatrix(matrix [][]int, t time.Duration) error {
+func (l *guiLED) DisplayMatrix(matrix [][]int, t time.Duration) error {
 	startTime := time.Now()
 	coordinates := letterToLED(matrix)
 	for time.Since(startTime) < t {
 		for _, c := range coordinates {
-			s.CordinatesToLED(c)
+			l.CordinatesToLED(c)
 		}
 	}
 	return nil
 }
 
-func (l *LEDGUI) Close() error {
+// Close turns all the gpio pins to low and closes connection
+func (l *guiLED) Close() error {
 	allPins := append(l.rowPins, l.colPins...)
 	for _, p := range allPins {
 		rpio.Pin(p).Low()
 	}
 	return rpio.Close()
-}
-
-func (l *LEDGUI) Rows() int {
-	return l.rowCount
-}
-
-func (l *LEDGUI) Cols() int {
-	return l.colCount
 }

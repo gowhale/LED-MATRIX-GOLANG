@@ -29,7 +29,7 @@ func TrimMatrix(matrix [][]int, cfg config.PinConfig, offset int) ([][]int, erro
 	}
 	for i := range newMatrix {
 		for len(newMatrix[i]) < cfg.ColCount() {
-			newMatrix[i] = append(newMatrix[i], gui.VapeOff)
+			newMatrix[i] = append(newMatrix[i], gui.LEDOff)
 		}
 	}
 	return newMatrix, nil
@@ -48,7 +48,7 @@ func ConcatanateLetters(word string) ([][]int, error) {
 		}
 		if index != OffsetStart {
 			for j, r := range newLetter {
-				sentenceAsLEDs[j] = append(sentenceAsLEDs[j], gui.VapeOff)
+				sentenceAsLEDs[j] = append(sentenceAsLEDs[j], gui.LEDOff)
 				sentenceAsLEDs[j] = append(sentenceAsLEDs[j], r...)
 			}
 		}
