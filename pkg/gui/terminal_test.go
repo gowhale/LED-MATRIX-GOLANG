@@ -34,7 +34,7 @@ func (t *terminalSuite) SetupTest() {
 	execCommand = fakeExecCommandPass
 }
 
-func (t *terminalSuite) AfterTest() {
+func (*terminalSuite) AfterTest() {
 	execCommand = exec.Command
 }
 
@@ -51,6 +51,7 @@ func (t *terminalSuite) Test_displayTerminalMatrixImpl_Pass() {
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(nil)
 	t.mockTerminal.On("Printf", "\n").Return(nil)
+
 	err := displayTerminalMatrixImpl(t.mockTerminal, letterA, time.Millisecond)
 	t.Nil(err)
 }
@@ -59,15 +60,16 @@ func (t *terminalSuite) Test_displayTerminalMatrixImpl_NewLine_Error() {
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(nil)
 	t.mockTerminal.On("Printf", "\n").Return(fmt.Errorf("new line error"))
+
 	err := displayTerminalMatrixImpl(t.mockTerminal, letterA, time.Millisecond)
 	t.EqualError(err, "new line error")
 }
 
 func (t *terminalSuite) Test_displayTerminalMatrixImpl_lightLED_Error() {
 	t.mockTerminal.On("Printf", " ").Return(fmt.Errorf("print err"))
+
 	err := displayTerminalMatrixImpl(t.mockTerminal, letterA, time.Millisecond)
 	t.EqualError(err, "print err")
-
 }
 
 func (t *terminalSuite) Test_NewTerminalGui() {
@@ -75,6 +77,7 @@ func (t *terminalSuite) Test_NewTerminalGui() {
 		RowPins: make([]int, expectedRow),
 		ColPins: make([]int, expectedCol),
 	}
+
 	newT := NewTerminalGui(cfg)
 	t.Equal(&terminalGui{
 		rowCount: expectedRow,

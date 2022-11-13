@@ -115,7 +115,8 @@ func (l *LEDSuite) Test_setColPinHigh() {
 	l.mockRPIO.On("Pin", 2).Return(l.mockPin)
 	l.mockRPIO.On("Pin", 3).Return(l.mockPin)
 
-	l.guiStruct.CordinatesToLED(coordinate{1, 1})
+	err := l.guiStruct.CordinatesToLED(coordinate{1, 1})
+	l.Nil(err)
 }
 
 func (l *LEDSuite) Test_CordinatesToLED() {

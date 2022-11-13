@@ -100,7 +100,9 @@ func displayLEDMatrix(matrix [][]int, t time.Duration, l Screen) error {
 	coordinates := letterToLED(matrix)
 	for time.Since(startTime) < t {
 		for _, c := range coordinates {
-			l.CordinatesToLED(c)
+			if err := l.CordinatesToLED(c); err != nil {
+				return err
+			}
 		}
 	}
 	return nil

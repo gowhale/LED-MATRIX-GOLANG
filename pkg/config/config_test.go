@@ -18,7 +18,7 @@ func (c *configSuite) SetupTest() {
 	c.mockJSONReader = new(mockReaderJSON)
 }
 
-func (c *configSuite) AfterTest() {
+func (*configSuite) AfterTest() {
 
 }
 

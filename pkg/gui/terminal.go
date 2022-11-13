@@ -66,6 +66,20 @@ func lightLED(t terminalOutputter, col int) error {
 	return t.Printf(" ")
 }
 
+func printRow(t *terminalGui, x, y, count int, cords coordinate) error {
+	if count%t.colCount == 0 && count > 0 {
+		if err := t.to.Printf("#\n#"); err != nil {
+			return err
+		}
+	}
+	if x == cords[cordXIndex] && y == cords[cordYIndex] {
+		if err := t.to.Printf("0"); err != nil {
+			return err
+		}
+	}
+	return t.to.Printf(" ")
+}
+
 func (t *terminalGui) CordinatesToLED(cords coordinate) error {
 	if err := t.AllLEDSOff(); err != nil {
 		return err
@@ -73,26 +87,16 @@ func (t *terminalGui) CordinatesToLED(cords coordinate) error {
 	if err := t.to.Printf("cord: x=%d y=%d\n##########\n#", cords[cordXIndex], cords[cordYIndex]); err != nil {
 		return err
 	}
+
 	count := 0
 	for x := 0; x < t.colCount; x++ {
 		for y := 0; y < t.rowCount; y++ {
-			if count%t.colCount == 0 && count > 0 {
-				if err := t.to.Printf("#\n#"); err != nil {
-					return err
-				}
-			}
-			if x == cords[cordXIndex] && y == cords[cordYIndex] {
-				if err := t.to.Printf("0"); err != nil {
-					return err
-				}
-			} else {
-				if err := t.to.Printf(" "); err != nil {
-					return err
-				}
+			if err := printRow(t, x, y, count, cords); err != nil {
+				return err
 			}
 			count++
 		}
-
 	}
+
 	return t.to.Printf("#\n##########")
 }
