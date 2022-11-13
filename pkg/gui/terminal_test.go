@@ -4,7 +4,6 @@ package gui
 
 import (
 	"elf-bar-awareness/pkg/config"
-	"math/rand"
 	"testing"
 	"time"
 
@@ -36,8 +35,8 @@ func (t *terminalSuite) Test_DisplayMatrix_Pass() {
 
 func (t *terminalSuite) Test_NewTerminalGui() {
 	cfg := config.PinConfig{
-		RowPins: []int{rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int()},
-		ColPins: []int{rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int()},
+		RowPins: make([]int, expectedRow),
+		ColPins: make([]int, expectedCol),
 	}
 	newT := NewTerminalGui(cfg)
 	t.Equal(&terminalGui{
