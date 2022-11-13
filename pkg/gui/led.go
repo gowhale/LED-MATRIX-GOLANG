@@ -53,7 +53,7 @@ func NewledGUI(cfg config.PinConfig) (Screen, error) {
 }
 
 func (l *guiLED) setRowPinLow(rowPin int) {
-	for _, r := range s.rowPins {
+	for _, r := range l.rowPins {
 		p := rpio.Pin(r)
 		p.High()
 	}
