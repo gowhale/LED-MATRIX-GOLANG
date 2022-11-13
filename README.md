@@ -41,3 +41,9 @@ To develop High Quality Software I have followed the following best practices:
 2. Enforced the golangci-lint linter on all Pull Requests (PR)
 3. Enforced tests to pass on PR's
 4. Enforced the revive linter on all PR's
+
+This being said the code is far from perfect. If you can think of any features, refactors or bugs feel free to raise an Issue or even fork the repo and create a PR! 
+
+## Test Coverage
+
+One of my GitHub actions deploys a website which shows what code is not covered: https://gowhale.github.io/LED-MATRIX-GOLANG/
