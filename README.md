@@ -28,6 +28,8 @@ The first 2 pages of the following document give an overview of what an LED matr
 
 My summary: An LED is a Light Emitting Diode. A diode is that only takes electricity in one direction. A LED is therefore a light source which only takes electricity one way. Because the LED only takes electricity one way we can wire up the LED's into a matrix to control lots of LEDS.
 
-In my setup I have wired up 64 LED's and control them only using 16 LED's. Note my code can only turn on one LED at a time. I use a technique called multiplexing to flash many LED's quickly that the HUMAN eye cannot percieve them turning off. Meaning that we can mock the behaviour of controlling many LED's at once. 
+In my setup I have wired up 64 LED's and control them only using 16 GPIO pins. Note my code can only turn on one LED at a time. I use a technique called multiplexing to flash many LED's quickly that the HUMAN eye cannot percieve them turning off. Meaning that we can mock the behaviour of controlling many LED's at once. 
 
-For example: 
+### Configuration
+
+To create a custom config for different sized matrixs you must create a config.json file to specify what pins control the rows and columns of the LED Matrix. This configuration file is also what the terminal output works off. So if you specify a 10 by 50 matrix in a .json and use `go run . -debug` it will show that size matrix in the terminal.  
