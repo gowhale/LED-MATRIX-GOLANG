@@ -22,7 +22,5 @@ type Screen interface {
 	AllVapesOff() error                                                // Set all vapes to off
 	Close() error                                                      // Defer to prevent errors next run
 	DisplayMatrix(matrix [][]int, displayDuration time.Duration) error // Displays matrix for x amount of time
-	Rows() int                                                         // Displays matrix for x amount of time
-	Cols() int                                                         // Displays matrix for x amount of time
-	CordinatesToLED(coordinate)                                        // Displays matrix for x amount of time
+	CordinatesToLED(coordinate)                                        // CordinatesToLED lights up a matrix's light at specified coordinate
 }
