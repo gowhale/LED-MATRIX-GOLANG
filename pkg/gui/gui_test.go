@@ -10,12 +10,6 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-const (
-	vOffFuncName   = "LEDOff"
-	vOnFuncName    = "LEDOn"
-	newRowFuncName = "NewRow"
-)
-
 type guiSuite struct {
 	suite.Suite
 	mockScreen *MockScreen
