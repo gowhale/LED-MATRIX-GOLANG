@@ -17,9 +17,6 @@ enableAllRules = true
 [rule.function-length]
     disabled=true
 
-[rule.magic-number]
-    disabled=true
-
 [rule.cognitive-complexity]
     arguments=[12]
     disabled=false

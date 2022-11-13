@@ -4,10 +4,16 @@ package gui
 
 import (
 	"elf-bar-awareness/pkg/config"
+	"math/rand"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/suite"
+)
+
+const (
+	expectedRow = 8
+	expectedCol = 8
 )
 
 type terminalSuite struct {
@@ -23,19 +29,19 @@ func TestTerminalSuite(t *testing.T) {
 	suite.Run(t, new(terminalSuite))
 }
 
-func (t *terminalSuite) Test_NewRow_Pass() {
-}
-
 func (t *terminalSuite) Test_DisplayMatrix_Pass() {
 	err := t.terminal.DisplayMatrix(letterA, time.Millisecond)
 	t.Nil(err)
 }
 
 func (t *terminalSuite) Test_NewTerminalGui() {
-	cfg := config.PinConfig{RowPins: []int{1, 3, 4, 5, 6, 7, 8, 9}, ColPins: []int{10, 11, 12, 13, 14, 15, 16, 17}}
+	cfg := config.PinConfig{
+		RowPins: []int{rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int()},
+		ColPins: []int{rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int(), rand.Int()},
+	}
 	newT := NewTerminalGui(cfg)
 	t.Equal(&terminalGui{
-		rowCount: 8,
-		colCount: 8,
+		rowCount: expectedRow,
+		colCount: expectedCol,
 	}, newT)
 }
