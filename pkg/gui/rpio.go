@@ -2,7 +2,7 @@ package gui
 
 import "github.com/stianeikeland/go-rpio"
 
-type RPIOProc struct{}
+type rpioProc struct{}
 
 //go:generate go run github.com/vektra/mockery/cmd/mockery -name rpioProcessor -inpkg --filename rpio_processor_mock.go
 type rpioProcessor interface {
@@ -11,15 +11,15 @@ type rpioProcessor interface {
 	Pin(p int) pinProcessor
 }
 
-func (*RPIOProc) Open() (err error) {
+func (*rpioProc) Open() (err error) {
 	return rpio.Open()
 }
 
-func (*RPIOProc) Close() (err error) {
+func (*rpioProc) Close() (err error) {
 	return rpio.Close()
 }
 
-func (*RPIOProc) Pin(p int) pinProcessor {
+func (*rpioProc) Pin(p int) pinProcessor {
 	return rpio.Pin(p)
 }
 

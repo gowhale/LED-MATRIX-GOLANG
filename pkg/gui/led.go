@@ -16,7 +16,11 @@ const (
 )
 
 // NewledGUI returns ledGUI struct to display output on terminal
-func NewledGUI(cfg config.PinConfig, rp rpioProcessor) (Screen, error) {
+func NewledGUI(cfg config.PinConfig) (Screen, error) {
+	return newledGUIImpl(cfg, &rpioProc{})
+}
+
+func newledGUIImpl(cfg config.PinConfig, rp rpioProcessor) (Screen, error) {
 	log.Println("Creating LED GUI. Opening gpio")
 	err := rp.Open()
 	if err != nil {

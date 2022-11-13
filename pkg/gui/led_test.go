@@ -71,7 +71,7 @@ func (l *LEDSuite) Test_NewledGUI_Pass() {
 	l.mockRPIO.On("Pin", 2).Return(l.mockPin)
 	l.mockRPIO.On("Pin", 3).Return(l.mockPin)
 
-	gui, err := NewledGUI(l.cfg, l.mockRPIO)
+	gui, err := newledGUIImpl(l.cfg, l.mockRPIO)
 	l.Nil(err)
 	l.Equal(&l.guiStruct, gui)
 }
@@ -79,7 +79,7 @@ func (l *LEDSuite) Test_NewledGUI_Pass() {
 func (l *LEDSuite) Test_NewledGUI_Open_Error() {
 	l.mockRPIO.On("Open").Return(fmt.Errorf("open error"))
 
-	gui, err := NewledGUI(l.cfg, l.mockRPIO)
+	gui, err := newledGUIImpl(l.cfg, l.mockRPIO)
 	l.EqualError(err, "open error")
 	l.Equal(nil, gui)
 }
