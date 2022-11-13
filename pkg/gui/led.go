@@ -1,57 +1,19 @@
 // Package gui is responsible for visual output
-// File terminal.go implements terminal methods for gui interface
+// File led.go implements LED methods for the raspberry pi
 package gui
 
 import (
 	"led-matrix/pkg/config"
 	"log"
 	"time"
-
-	"github.com/stianeikeland/go-rpio"
 )
 
-// consts starting with L represent left side pins
-// consts starting with R represent right side pins
 const (
 	sleep = 1 // amount of ms to keep single LED on whilst multiplexing
 
 	cordXIndex = 0
 	cordYIndex = 0
 )
-
-type RPIOProc struct{}
-
-//go:generate go run github.com/vektra/mockery/cmd/mockery -name rpioProcessor -inpkg --filename rpio_processor_mock.go
-type rpioProcessor interface {
-	Open() (err error)
-	Close() (err error)
-	Pin(p int) pinProcessor
-}
-
-func (*RPIOProc) Open() (err error) {
-	return rpio.Open()
-}
-
-func (*RPIOProc) Close() (err error) {
-	return rpio.Close()
-}
-
-func (*RPIOProc) Pin(p int) pinProcessor {
-	return rpio.Pin(p)
-}
-
-//go:generate go run github.com/vektra/mockery/cmd/mockery -name pinProcessor -inpkg --filename pin_processor_mock.go
-type pinProcessor interface {
-	Output()
-	Low()
-	High()
-}
-
-type guiLED struct {
-	rowCount, colCount int
-	rowPins, colPins   []int
-	rpioController     rpioProcessor
-}
 
 // NewledGUI returns ledGUI struct to display output on terminal
 func NewledGUI(cfg config.PinConfig, rp rpioProcessor) (Screen, error) {
