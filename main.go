@@ -64,7 +64,7 @@ func run(screen gui.Screen, cfg config.PinConfig) {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		if err := screen.AllVapesOff(); err != nil {
+		if err := screen.AllLEDSOff(); err != nil {
 			log.Fatalln(err)
 		}
 		if err := screen.DisplayMatrix(trimmedMatrix, refreshTime); err != nil {

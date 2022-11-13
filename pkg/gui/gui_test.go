@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	vOffFuncName   = "VapeLightOff"
-	vOnFuncName    = "VapeLightOn"
+	vOffFuncName   = "LEDOff"
+	vOnFuncName    = "LEDOn"
 	newRowFuncName = "NewRow"
 )
 

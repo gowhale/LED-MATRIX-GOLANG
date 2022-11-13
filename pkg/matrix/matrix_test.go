@@ -27,7 +27,7 @@ func TestQuizTestSuite(t *testing.T) {
 }
 
 func (t *matrixSuite) Test_DisplayMatrix_Pass() {
-	testMatrix := [][]int{{gui.VapeOff, gui.VapeOff, gui.VapeOff, gui.VapeOff, gui.VapeOff}}
+	testMatrix := [][]int{{gui.LEDOff, gui.LEDOff, gui.LEDOff, gui.LEDOff, gui.LEDOff}}
 	cfg := config.PinConfig{
 		ColPins: make([]int, testCols),
 		RowPins: make([]int, testRows),
@@ -37,15 +37,6 @@ func (t *matrixSuite) Test_DisplayMatrix_Pass() {
 	t.Equal(testMatrix, m)
 	t.Nil(err)
 }
-
-// func (t *matrixSuite) Test_DisplayMatrix_Append_Pass() {
-// 	testMatrix := [][]int{}
-// 	expectedMatrix := [][]int{{gui.VapeOff, gui.VapeOff}}
-
-// 	m, err := TrimMatrix(testMatrix, 1, 10, 0)
-// 	t.Equal(expectedMatrix, m)
-// 	t.Nil(err)
-// }
 
 func (t *matrixSuite) Test_ConcatanateLetters_SingleLetter_Pass() {
 	m, err := ConcatanateLetters("a")
@@ -60,7 +51,7 @@ func (t *matrixSuite) Test_ConcatanateLetters_TwoLetter_Pass() {
 	expectedMatrix := letterOne
 	for i := range letterTwo {
 		expectedMatrix[i] = append(expectedMatrix[i], letterTwo[i]...)
-		expectedMatrix[i] = append(expectedMatrix[i], gui.VapeOff)
+		expectedMatrix[i] = append(expectedMatrix[i], gui.LEDOff)
 	}
 	t.Equal(expectedMatrix, m)
 	t.Nil(err)

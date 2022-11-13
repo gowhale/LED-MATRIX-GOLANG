@@ -22,8 +22,8 @@ func NewTerminalGui(cfg config.PinConfig) Screen {
 	}
 }
 
-// AllVapesOff clears the termina
-func (*terminalGui) AllVapesOff() error {
+// AllLEDSOff clears the termina
+func (*terminalGui) AllLEDSOff() error {
 	cmd := exec.Command("clear")
 	cmd.Stdout = os.Stdout
 	return cmd.Run()
@@ -48,7 +48,7 @@ func DisplayMatrix(matrix [][]int) error {
 	count := rowColStartIndex
 	for _, row := range matrix {
 		for _, col := range row {
-			if err := lightVape(col); err != nil {
+			if err := lightLED(col); err != nil {
 				return err
 			}
 			count++
@@ -61,8 +61,8 @@ func DisplayMatrix(matrix [][]int) error {
 	return nil
 }
 
-func lightVape(col int) error {
-	if col == VapeOn {
+func lightLED(col int) error {
+	if col == LEDOn {
 		_, err := fmt.Printf("0")
 		return err
 	}

@@ -79,7 +79,7 @@ func letterToLED(l [][]int) []coordinate {
 	coordinates := []coordinate{}
 	for i, row := range l {
 		for j, col := range row {
-			if col == VapeOn {
+			if col == LEDOn {
 				coordinates = append(coordinates, coordinate{j, i})
 			}
 		}
@@ -87,8 +87,8 @@ func letterToLED(l [][]int) []coordinate {
 	return coordinates
 }
 
-// AllVapesOff clears the termina
-func (*guiLED) AllVapesOff() error {
+// AllLEDSOff clears the termina
+func (*guiLED) AllLEDSOff() error {
 	return nil
 }
 

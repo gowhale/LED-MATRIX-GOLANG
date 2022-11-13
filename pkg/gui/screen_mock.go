@@ -13,8 +13,8 @@ type MockScreen struct {
 	mock.Mock
 }
 
-// AllVapesOff provides a mock function with given fields:
-func (_m *MockScreen) AllVapesOff() error {
+// AllLEDSOff provides a mock function with given fields:
+func (_m *MockScreen) AllLEDSOff() error {
 	ret := _m.Called()
 
 	var r0 error
