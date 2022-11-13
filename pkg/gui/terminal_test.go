@@ -46,6 +46,7 @@ func (t *terminalSuite) Test_DisplayMatrix_Pass() {
 	err := t.terminal.DisplayMatrix(letterA, time.Millisecond)
 	t.Nil(err)
 }
+
 func (t *terminalSuite) Test_displayTerminalMatrixImpl_Pass() {
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(nil)
