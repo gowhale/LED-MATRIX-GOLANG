@@ -50,7 +50,10 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
+	run(screen, cfg)
+}
 
+func run(screen gui.Screen, cfg config.PinConfig) {
 	word := "lets go champ"
 	matrix, err := mx.ConcatanateLetters(word)
 	if err != nil {
