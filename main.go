@@ -12,7 +12,7 @@ import (
 
 const (
 	refreshTime   = time.Millisecond * 100
-	offsetLimit   = 1000
+	offsetLimit   = 100
 	defaultConfig = "eight-by-eight.json"
 )
 
