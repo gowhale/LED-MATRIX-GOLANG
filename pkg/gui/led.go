@@ -19,27 +19,50 @@ const (
 	cordYIndex = 0
 )
 
+type RPIOProc struct{}
+
+//go:generate go run github.com/vektra/mockery/cmd/mockery -name rpioProcessor -inpkg --filename rpio_processor_mock.go
+type rpioProcessor interface {
+	Open() (err error)
+	Pin(p int) pinProcessor
+}
+
+func (*RPIOProc) Open() (err error) {
+	return rpio.Open()
+}
+
+func (*RPIOProc) Pin(p int) pinProcessor {
+	return rpio.Pin(p)
+}
+
+//go:generate go run github.com/vektra/mockery/cmd/mockery -name pinProcessor -inpkg --filename pin_processor_mock.go
+type pinProcessor interface {
+	Output()
+	Low()
+	High()
+}
+
 type guiLED struct {
 	rowCount, colCount int
 	rowPins, colPins   []int
 }
 
 // NewledGUI returns ledGUI struct to display output on terminal
-func NewledGUI(cfg config.PinConfig) (Screen, error) {
+func NewledGUI(cfg config.PinConfig, rp rpioProcessor) (Screen, error) {
 	log.Println("Creating LED GUI. Opening gpio")
-	err := rpio.Open()
+	err := rp.Open()
 	if err != nil {
 		return nil, err
 	}
 
 	log.Println("Setting all pins to low")
 	for _, c := range cfg.ColPins {
-		p := rpio.Pin(c)
+		p := rp.Pin(c)
 		p.Output()
 		p.Low()
 	}
 	for _, c := range cfg.RowPins {
-		p := rpio.Pin(c)
+		p := rp.Pin(c)
 		p.Output()
 		p.Low()
 	}

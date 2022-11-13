@@ -39,7 +39,7 @@ func main() {
 	screen := gui.NewTerminalGui(cfg)
 	if !*debugMode {
 		var err error
-		screen, err = gui.NewledGUI(cfg)
+		screen, err = gui.NewledGUI(cfg, &gui.RPIOProc{})
 		if err != nil {
 			log.Fatal(err)
 		}
