@@ -23,9 +23,11 @@ func NewTerminalGui(cfg config.PinConfig) Screen {
 	}
 }
 
-// AllLEDSOff clears the termina
+var execCommand = exec.Command
+
+// AllLEDSOff clears the terminal
 func (*terminalGui) AllLEDSOff() error {
-	cmd := exec.Command("clear")
+	cmd := execCommand("clear")
 	cmd.Stdout = os.Stdout
 	return cmd.Run()
 }
@@ -65,8 +67,20 @@ func lightLED(t terminalOutputter, col int) error {
 }
 
 func (t *terminalGui) CordinatesToLED(cords coordinate) error {
-	for y := 0; y < t.rowCount; y++ {
-		for x := 0; x < t.colCount; x++ {
+	if err := t.AllLEDSOff(); err != nil {
+		return err
+	}
+	if err := t.to.Printf("cord: x=%d y=%d\n##########\n#", cords[cordXIndex], cords[cordYIndex]); err != nil {
+		return err
+	}
+	count := 0
+	for x := 0; x < t.colCount; x++ {
+		for y := 0; y < t.rowCount; y++ {
+			if count%t.colCount == 0 && count > 0 {
+				if err := t.to.Printf("#\n#"); err != nil {
+					return err
+				}
+			}
 			if x == cords[cordXIndex] && y == cords[cordYIndex] {
 				if err := t.to.Printf("0"); err != nil {
 					return err
@@ -76,11 +90,9 @@ func (t *terminalGui) CordinatesToLED(cords coordinate) error {
 					return err
 				}
 			}
-		}
-		if err := t.to.Printf("\n"); err != nil {
-			return err
+			count++
 		}
 
 	}
-	return nil
+	return t.to.Printf("#\n##########")
 }

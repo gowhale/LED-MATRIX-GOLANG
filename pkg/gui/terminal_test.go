@@ -5,6 +5,8 @@ package gui
 import (
 	"fmt"
 	"led-matrix/pkg/config"
+	"os"
+	"os/exec"
 	"testing"
 	"time"
 
@@ -14,6 +16,9 @@ import (
 const (
 	expectedRow = 8
 	expectedCol = 8
+
+	exitCodePass = 0
+	exitCodeFail = 1
 )
 
 type terminalSuite struct {
@@ -25,6 +30,12 @@ type terminalSuite struct {
 func (t *terminalSuite) SetupTest() {
 	t.terminal = terminalGui{}
 	t.mockTerminal = new(mockTerminalOutputter)
+
+	execCommand = fakeExecCommandPass
+}
+
+func (t *terminalSuite) AfterTest() {
+	execCommand = exec.Command
 }
 
 func TestTerminalSuite(t *testing.T) {
@@ -67,10 +78,133 @@ func (t *terminalSuite) Test_NewTerminalGui() {
 	t.Equal(&terminalGui{
 		rowCount: expectedRow,
 		colCount: expectedCol,
+		to:       &terminalOutput{},
 	}, newT)
 }
 
 func (t *terminalSuite) Test_Close() {
 	term := terminalGui{}
 	t.Nil(term.Close())
+}
+
+func TestHelperProcess(*testing.T) {
+	helper := os.Getenv("GO_WANT_HELPER_PROCESS")
+	//pass
+	if helper == "1" {
+		os.Exit(exitCodePass)
+		return
+	}
+	//fail
+	if helper == "2" {
+		os.Exit(exitCodeFail)
+		return
+	}
+}
+
+func fakeExecCommandPass(command string, args ...string) *exec.Cmd {
+	cs := []string{"-test.run=TestHelperProcess", "--", command}
+	cs = append(cs, args...)
+	cmd := exec.Command(os.Args[0], cs...)
+	cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
+	return cmd
+}
+
+func (t *terminalSuite) Test_CordinatesToLED_Pass() {
+	term := &terminalGui{
+		rowCount: expectedRow,
+		colCount: expectedCol,
+		to:       &terminalOutput{},
+	}
+
+	t.Nil(term.CordinatesToLED(coordinate{1, 1}))
+}
+
+func (t *terminalSuite) Test_CordinatesToLED_mockTerminal_Pass() {
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", " ").Return(nil)
+	t.mockTerminal.On("Printf", "#\n#").Return(nil)
+	t.mockTerminal.On("Printf", "0").Return(nil)
+	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+
+	term := &terminalGui{
+		rowCount: expectedRow,
+		colCount: expectedCol,
+		to:       t.mockTerminal,
+	}
+	t.Nil(term.CordinatesToLED(coordinate{1, 1}))
+}
+
+func (t *terminalSuite) Test_CordinatesToLED_CordPrint_Error() {
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(fmt.Errorf("print err"))
+	t.mockTerminal.On("Printf", " ").Return(nil)
+	t.mockTerminal.On("Printf", "#\n#").Return(nil)
+	t.mockTerminal.On("Printf", "0").Return(nil)
+	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+
+	term := &terminalGui{
+		rowCount: expectedRow,
+		colCount: expectedCol,
+		to:       t.mockTerminal,
+	}
+	t.EqualError(term.CordinatesToLED(coordinate{1, 1}), "print err")
+}
+
+func (t *terminalSuite) Test_CordinatesToLED_Space_Error() {
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", " ").Return(fmt.Errorf("print err"))
+	t.mockTerminal.On("Printf", "#\n#").Return(nil)
+	t.mockTerminal.On("Printf", "0").Return(nil)
+	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+
+	term := &terminalGui{
+		rowCount: expectedRow,
+		colCount: expectedCol,
+		to:       t.mockTerminal,
+	}
+	t.EqualError(term.CordinatesToLED(coordinate{1, 1}), "print err")
+}
+
+func (t *terminalSuite) Test_CordinatesToLED_NewLine_Error() {
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", " ").Return(nil)
+	t.mockTerminal.On("Printf", "#\n#").Return(fmt.Errorf("print err"))
+	t.mockTerminal.On("Printf", "0").Return(nil)
+	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+
+	term := &terminalGui{
+		rowCount: expectedRow,
+		colCount: expectedCol,
+		to:       t.mockTerminal,
+	}
+	t.EqualError(term.CordinatesToLED(coordinate{1, 1}), "print err")
+}
+
+func (t *terminalSuite) Test_CordinatesToLED_Zero_Error() {
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", " ").Return(nil)
+	t.mockTerminal.On("Printf", "#\n#").Return(nil)
+	t.mockTerminal.On("Printf", "0").Return(fmt.Errorf("print err"))
+	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+
+	term := &terminalGui{
+		rowCount: expectedRow,
+		colCount: expectedCol,
+		to:       t.mockTerminal,
+	}
+	t.EqualError(term.CordinatesToLED(coordinate{1, 1}), "print err")
+}
+
+func (t *terminalSuite) Test_CordinatesToLED_EndLine_Error() {
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", " ").Return(nil)
+	t.mockTerminal.On("Printf", "#\n#").Return(nil)
+	t.mockTerminal.On("Printf", "0").Return(fmt.Errorf("print err"))
+	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+
+	term := &terminalGui{
+		rowCount: expectedRow,
+		colCount: expectedCol,
+		to:       t.mockTerminal,
+	}
+	t.EqualError(term.CordinatesToLED(coordinate{1, 1}), "print err")
 }
