@@ -59,5 +59,5 @@ type readerJSON interface {
 }
 
 func (*readJSON) ReadFile(filename string) ([]byte, error) {
-	return ioutil.ReadFile(fmt.Sprintf("config-files/%s", filename))
+	return ioutil.ReadFile(filename)
 }
