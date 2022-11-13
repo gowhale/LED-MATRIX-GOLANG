@@ -24,11 +24,16 @@ type RPIOProc struct{}
 //go:generate go run github.com/vektra/mockery/cmd/mockery -name rpioProcessor -inpkg --filename rpio_processor_mock.go
 type rpioProcessor interface {
 	Open() (err error)
+	Close() (err error)
 	Pin(p int) pinProcessor
 }
 
 func (*RPIOProc) Open() (err error) {
 	return rpio.Open()
+}
+
+func (*RPIOProc) Close() (err error) {
+	return rpio.Close()
 }
 
 func (*RPIOProc) Pin(p int) pinProcessor {
@@ -45,6 +50,7 @@ type pinProcessor interface {
 type guiLED struct {
 	rowCount, colCount int
 	rowPins, colPins   []int
+	rpioController     rpioProcessor
 }
 
 // NewledGUI returns ledGUI struct to display output on terminal
@@ -68,24 +74,25 @@ func NewledGUI(cfg config.PinConfig, rp rpioProcessor) (Screen, error) {
 	}
 
 	return &guiLED{
-		rowCount: cfg.RowCount(),
-		colCount: cfg.ColCount(),
-		rowPins:  cfg.RowPins,
-		colPins:  cfg.ColPins,
+		rowCount:       cfg.RowCount(),
+		colCount:       cfg.ColCount(),
+		rowPins:        cfg.RowPins,
+		colPins:        cfg.ColPins,
+		rpioController: rp,
 	}, nil
 }
 
 func (l *guiLED) setRowPinLow(rowPin int) {
 	for _, r := range l.rowPins {
-		p := rpio.Pin(r)
+		p := l.rpioController.Pin(r)
 		p.High()
 	}
-	p := rpio.Pin(rowPin)
+	p := l.rpioController.Pin(rowPin)
 	p.Low()
 }
 
-func setColPinHigh(col int) {
-	p := rpio.Pin(col)
+func (l *guiLED) setColPinHigh(col int) {
+	p := l.rpioController.Pin(col)
 	p.High()
 	time.Sleep(time.Microsecond * sleep)
 	p.Low()
@@ -95,7 +102,7 @@ func setColPinHigh(col int) {
 // Only lights temporarily used for multiplexing the lights
 func (l *guiLED) CordinatesToLED(cord coordinate) {
 	l.setRowPinLow(l.rowPins[cord[cordYIndex]])
-	setColPinHigh(l.colPins[cord[cordXIndex]])
+	l.setColPinHigh(l.colPins[cord[cordXIndex]])
 }
 
 func letterToLED(l [][]int) []coordinate {
@@ -115,8 +122,7 @@ func (*guiLED) AllLEDSOff() error {
 	return nil
 }
 
-// DisplayMatrix displays the matrix provided
-func (l *guiLED) DisplayMatrix(matrix [][]int, t time.Duration) error {
+func displayMatrixImp(matrix [][]int, t time.Duration, l Screen) error {
 	startTime := time.Now()
 	coordinates := letterToLED(matrix)
 	for time.Since(startTime) < t {
@@ -127,11 +133,16 @@ func (l *guiLED) DisplayMatrix(matrix [][]int, t time.Duration) error {
 	return nil
 }
 
+// DisplayMatrix displays the matrix provided
+func (l *guiLED) DisplayMatrix(matrix [][]int, t time.Duration) error {
+	return displayMatrixImp(matrix, t, l)
+}
+
 // Close turns all the gpio pins to low and closes connection
 func (l *guiLED) Close() error {
 	allPins := append(l.rowPins, l.colPins...)
 	for _, p := range allPins {
-		rpio.Pin(p).Low()
+		l.rpioController.Pin(p).Low()
 	}
-	return rpio.Close()
+	return l.rpioController.Close()
 }
