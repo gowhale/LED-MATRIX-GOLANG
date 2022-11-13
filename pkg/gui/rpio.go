@@ -29,9 +29,3 @@ type pinProcessor interface {
 	Low()
 	High()
 }
-
-type guiLED struct {
-	rowCount, colCount int
-	rowPins, colPins   []int
-	rpioController     rpioProcessor
-}

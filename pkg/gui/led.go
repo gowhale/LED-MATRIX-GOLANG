@@ -12,8 +12,14 @@ const (
 	sleep = 1 // amount of ms to keep single LED on whilst multiplexing
 
 	cordXIndex = 0
-	cordYIndex = 0
+	cordYIndex = 1
 )
+
+type guiLED struct {
+	rowCount, colCount int
+	rowPins, colPins   []int
+	rpioController     rpioProcessor
+}
 
 // NewledGUI returns ledGUI struct to display output on terminal
 func NewledGUI(cfg config.PinConfig) (Screen, error) {
@@ -66,9 +72,10 @@ func (l *guiLED) setColPinHigh(col int) {
 
 // CordinatesToLED lights up a matrix's light at specified coordinate
 // Only lights temporarily used for multiplexing the lights
-func (l *guiLED) CordinatesToLED(cord coordinate) {
+func (l *guiLED) CordinatesToLED(cord coordinate) error {
 	l.setRowPinLow(l.rowPins[cord[cordYIndex]])
 	l.setColPinHigh(l.colPins[cord[cordXIndex]])
+	return nil
 }
 
 func letterToLED(l [][]int) []coordinate {
@@ -88,7 +95,7 @@ func (*guiLED) AllLEDSOff() error {
 	return nil
 }
 
-func displayMatrixImp(matrix [][]int, t time.Duration, l Screen) error {
+func displayLEDMatrix(matrix [][]int, t time.Duration, l Screen) error {
 	startTime := time.Now()
 	coordinates := letterToLED(matrix)
 	for time.Since(startTime) < t {
@@ -101,7 +108,7 @@ func displayMatrixImp(matrix [][]int, t time.Duration, l Screen) error {
 
 // DisplayMatrix displays the matrix provided
 func (l *guiLED) DisplayMatrix(matrix [][]int, t time.Duration) error {
-	return displayMatrixImp(matrix, t, l)
+	return displayLEDMatrix(matrix, t, l)
 }
 
 // Close turns all the gpio pins to low and closes connection

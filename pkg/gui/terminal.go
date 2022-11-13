@@ -3,7 +3,6 @@
 package gui
 
 import (
-	"fmt"
 	"led-matrix/pkg/config"
 	"os"
 	"os/exec"
@@ -12,6 +11,7 @@ import (
 
 type terminalGui struct {
 	colCount, rowCount int
+	to                 terminalOutputter
 }
 
 // NewTerminalGui returns terminalGui struct to display output on terminal
@@ -19,6 +19,7 @@ func NewTerminalGui(cfg config.PinConfig) Screen {
 	return &terminalGui{
 		rowCount: len(cfg.RowPins),
 		colCount: len(cfg.ColPins),
+		to:       &terminalOutput{},
 	}
 }
 
@@ -31,12 +32,7 @@ func (*terminalGui) AllLEDSOff() error {
 
 // DisplayMatrix displays the matrix provided
 func (*terminalGui) DisplayMatrix(matrix [][]int, duration time.Duration) error {
-	err := DisplayMatrix(matrix)
-	if err != nil {
-		return err
-	}
-	time.Sleep(duration)
-	return nil
+	return displayTerminalMatrixImpl(&terminalOutput{}, matrix, duration)
 }
 
 func (*terminalGui) Close() error {
@@ -44,32 +40,47 @@ func (*terminalGui) Close() error {
 }
 
 // DisplayMatrix displays the matrix provided
-func DisplayMatrix(matrix [][]int) error {
+func displayTerminalMatrixImpl(t terminalOutputter, matrix [][]int, duration time.Duration) error {
 	count := rowColStartIndex
 	for _, row := range matrix {
 		for _, col := range row {
-			if err := lightLED(col); err != nil {
+			if err := lightLED(t, col); err != nil {
 				return err
 			}
 			count++
 		}
-		_, err := fmt.Printf("\n")
-		if err != nil {
+		if err := t.Printf("\n"); err != nil {
 			return err
 		}
 	}
+	time.Sleep(duration)
 	return nil
 }
 
-func lightLED(col int) error {
+func lightLED(t terminalOutputter, col int) error {
 	if col == LEDOn {
-		_, err := fmt.Printf("0")
-		return err
+		return t.Printf("0")
 	}
-	_, err := fmt.Printf(" ")
-	return err
+	return t.Printf(" ")
 }
 
-func (*terminalGui) CordinatesToLED(_ coordinate) {
+func (t *terminalGui) CordinatesToLED(cords coordinate) error {
+	for y := 0; y < t.rowCount; y++ {
+		for x := 0; x < t.colCount; x++ {
+			if x == cords[cordXIndex] && y == cords[cordYIndex] {
+				if err := t.to.Printf("0"); err != nil {
+					return err
+				}
+			} else {
+				if err := t.to.Printf(" "); err != nil {
+					return err
+				}
+			}
+		}
+		if err := t.to.Printf("\n"); err != nil {
+			return err
+		}
 
+	}
+	return nil
 }

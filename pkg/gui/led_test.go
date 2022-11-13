@@ -146,6 +146,6 @@ func (l *LEDSuite) Test_displayMatrixImp_Pass() {
 	l.mockScreen.On("CordinatesToLED", l.exampleCoords[6]).Return(nil)
 	l.mockScreen.On("CordinatesToLED", l.exampleCoords[7]).Return(nil)
 	l.mockScreen.On("CordinatesToLED", l.exampleCoords[8]).Return(nil)
-	err := displayMatrixImp(l.exampleMatrix, time.Millisecond, l.mockScreen)
+	err := displayLEDMatrix(l.exampleMatrix, time.Millisecond, l.mockScreen)
 	l.Nil(err)
 }

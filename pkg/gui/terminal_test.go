@@ -3,6 +3,7 @@
 package gui
 
 import (
+	"fmt"
 	"led-matrix/pkg/config"
 	"testing"
 	"time"
@@ -17,11 +18,13 @@ const (
 
 type terminalSuite struct {
 	suite.Suite
-	terminal terminalGui
+	terminal     terminalGui
+	mockTerminal *mockTerminalOutputter
 }
 
 func (t *terminalSuite) SetupTest() {
 	t.terminal = terminalGui{}
+	t.mockTerminal = new(mockTerminalOutputter)
 }
 
 func TestTerminalSuite(t *testing.T) {
@@ -31,6 +34,28 @@ func TestTerminalSuite(t *testing.T) {
 func (t *terminalSuite) Test_DisplayMatrix_Pass() {
 	err := t.terminal.DisplayMatrix(letterA, time.Millisecond)
 	t.Nil(err)
+}
+func (t *terminalSuite) Test_displayTerminalMatrixImpl_Pass() {
+	t.mockTerminal.On("Printf", " ").Return(nil)
+	t.mockTerminal.On("Printf", "0").Return(nil)
+	t.mockTerminal.On("Printf", "\n").Return(nil)
+	err := displayTerminalMatrixImpl(t.mockTerminal, letterA, time.Millisecond)
+	t.Nil(err)
+}
+
+func (t *terminalSuite) Test_displayTerminalMatrixImpl_NewLine_Error() {
+	t.mockTerminal.On("Printf", " ").Return(nil)
+	t.mockTerminal.On("Printf", "0").Return(nil)
+	t.mockTerminal.On("Printf", "\n").Return(fmt.Errorf("new line error"))
+	err := displayTerminalMatrixImpl(t.mockTerminal, letterA, time.Millisecond)
+	t.EqualError(err, "new line error")
+}
+
+func (t *terminalSuite) Test_displayTerminalMatrixImpl_lightLED_Error() {
+	t.mockTerminal.On("Printf", " ").Return(fmt.Errorf("print err"))
+	err := displayTerminalMatrixImpl(t.mockTerminal, letterA, time.Millisecond)
+	t.EqualError(err, "print err")
+
 }
 
 func (t *terminalSuite) Test_NewTerminalGui() {
@@ -43,4 +68,9 @@ func (t *terminalSuite) Test_NewTerminalGui() {
 		rowCount: expectedRow,
 		colCount: expectedCol,
 	}, newT)
+}
+
+func (t *terminalSuite) Test_Close() {
+	term := terminalGui{}
+	t.Nil(term.Close())
 }

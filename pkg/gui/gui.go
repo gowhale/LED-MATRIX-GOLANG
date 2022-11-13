@@ -22,5 +22,5 @@ type Screen interface {
 	AllLEDSOff() error                                                 // Set all LEDS to off
 	Close() error                                                      // Defer to prevent errors next run
 	DisplayMatrix(matrix [][]int, displayDuration time.Duration) error // Displays matrix for x amount of time
-	CordinatesToLED(coordinate)                                        // CordinatesToLED lights up a matrix's light at specified coordinate
+	CordinatesToLED(coordinate) error                                  // CordinatesToLED lights up a matrix's light at specified coordinate
 }
