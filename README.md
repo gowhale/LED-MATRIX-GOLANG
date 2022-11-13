@@ -33,3 +33,11 @@ In my setup I have wired up 64 LED's and control them only using 16 GPIO pins. N
 ### Configuration
 
 To create a custom config for different sized matrixs you must create a config.json file to specify what pins control the rows and columns of the LED Matrix. This configuration file is also what the terminal output works off. So if you specify a 10 by 50 matrix in a .json and use `go run . -debug` it will show that size matrix in the terminal.  
+
+## Developing High Quality Software
+
+To develop High Quality Software I have followed the following best practices:
+1. ensure all pkg's have code coverage of over 75%
+2. Enforced the golangci-lint linter on all Pull Requests (PR)
+3. Enforced tests to pass on PR's
+4. Enforced the revive linter on all PR's
