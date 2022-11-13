@@ -30,12 +30,12 @@ func (*terminalGui) AllVapesOff() error {
 }
 
 // DisplayMatrix displays the matrix provided
-func (s *terminalGui) DisplayMatrix(matrix [][]int, t time.Duration) error {
-	err := DisplayMatrix(s, matrix)
+func (*terminalGui) DisplayMatrix(matrix [][]int, duration time.Duration) error {
+	err := DisplayMatrix(matrix)
 	if err != nil {
 		return err
 	}
-	time.Sleep(t)
+	time.Sleep(duration)
 	return nil
 }
 
@@ -44,11 +44,11 @@ func (*terminalGui) Close() error {
 }
 
 // DisplayMatrix displays the matrix provided
-func DisplayMatrix(s Screen, matrix [][]int) error {
+func DisplayMatrix(matrix [][]int) error {
 	count := rowColStartIndex
 	for _, row := range matrix {
 		for _, col := range row {
-			if err := lightVape(s, col, count); err != nil {
+			if err := lightVape(col); err != nil {
 				return err
 			}
 			count++
@@ -61,7 +61,7 @@ func DisplayMatrix(s Screen, matrix [][]int) error {
 	return nil
 }
 
-func lightVape(s Screen, col, count int) error {
+func lightVape(col int) error {
 	if col == VapeOn {
 		_, err := fmt.Printf("0")
 		return err
@@ -70,14 +70,6 @@ func lightVape(s Screen, col, count int) error {
 	return err
 }
 
-func (t *terminalGui) Rows() int {
-	return t.rowCount
-}
-
-func (t *terminalGui) Cols() int {
-	return t.colCount
-}
-
-func (t *terminalGui) CordinatesToLED(cord coordinate) {
+func (*terminalGui) CordinatesToLED(_ coordinate) {
 
 }
