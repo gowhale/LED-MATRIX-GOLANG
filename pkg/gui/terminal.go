@@ -3,10 +3,11 @@
 package gui
 
 import (
-	"led-matrix/pkg/config"
 	"os"
 	"os/exec"
 	"time"
+
+	"github.com/gowhale/led-matrix/pkg/config"
 )
 
 type terminalGui struct {
