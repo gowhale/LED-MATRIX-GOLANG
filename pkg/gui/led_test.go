@@ -4,9 +4,10 @@ package gui
 
 import (
 	"fmt"
-	"led-matrix/pkg/config"
 	"testing"
 	"time"
+
+	"github.com/gowhale/led-matrix/pkg/config"
 
 	"github.com/stretchr/testify/suite"
 )

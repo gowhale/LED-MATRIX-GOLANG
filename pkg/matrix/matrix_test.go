@@ -3,9 +3,10 @@
 package matrix
 
 import (
-	"led-matrix/pkg/config"
-	"led-matrix/pkg/gui"
 	"testing"
+
+	"github.com/gowhale/led-matrix/pkg/config"
+	"github.com/gowhale/led-matrix/pkg/gui"
 
 	"github.com/stretchr/testify/suite"
 )

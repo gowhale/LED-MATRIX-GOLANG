@@ -2,8 +2,9 @@ package matrix
 
 import (
 	"fmt"
-	"led-matrix/pkg/config"
-	"led-matrix/pkg/gui"
+
+	"github.com/gowhale/led-matrix/pkg/config"
+	"github.com/gowhale/led-matrix/pkg/gui"
 )
 
 const (

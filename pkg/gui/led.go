@@ -3,9 +3,10 @@
 package gui
 
 import (
-	"led-matrix/pkg/config"
 	"log"
 	"time"
+
+	"github.com/gowhale/led-matrix/pkg/config"
 )
 
 const (

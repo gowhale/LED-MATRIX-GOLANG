@@ -3,11 +3,12 @@ package main
 
 import (
 	"flag"
-	"led-matrix/pkg/config"
-	"led-matrix/pkg/gui"
-	mx "led-matrix/pkg/matrix"
 	"log"
 	"time"
+
+	"github.com/gowhale/led-matrix/pkg/config"
+	"github.com/gowhale/led-matrix/pkg/gui"
+	mx "github.com/gowhale/led-matrix/pkg/matrix"
 )
 
 const (
@@ -27,7 +28,7 @@ func main() {
 		log.Printf("Using default config file %s\n", defaultConfig)
 	}
 
-	cfg, err := config.LoadConfig(defaultConfig)
+	cfg, err := config.LoadConfig(*configName)
 	if err != nil {
 		log.Fatal(err)
 	}
