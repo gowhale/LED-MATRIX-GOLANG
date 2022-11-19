@@ -3,8 +3,8 @@ package matrix
 import (
 	"fmt"
 
-	"github.com/gowhale/led-matrix/pkg/config"
-	"github.com/gowhale/led-matrix/pkg/gui"
+	"github.com/gowhale/led-matrix-golang/pkg/config"
+	"github.com/gowhale/led-matrix-golang/pkg/gui"
 )
 
 const (

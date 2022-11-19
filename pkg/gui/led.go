@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/gowhale/led-matrix/pkg/config"
+	"github.com/gowhale/led-matrix-golang/pkg/config"
 )
 
 const (
