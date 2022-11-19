@@ -1,4 +1,4 @@
-module github.com/gowhale/led-matrix
+module github.com/gowhale/led-matrix-golang
 
 go 1.17
 
