@@ -30,6 +30,17 @@ var LetterMap = map[string][][]int{
 	"u": letterU,
 	"w": letterW,
 	"y": letterY,
+
+	"0": number0,
+	"1": number1,
+	"2": number2,
+	"3": number3,
+	"4": number4,
+	"5": number5,
+	"6": number6,
+	"7": number7,
+	"8": number8,
+	"9": number9,
 }
 
 var fullRow = []int{LEDOn, LEDOn, LEDOn, LEDOn, LEDOn}
@@ -185,4 +196,81 @@ var letterY = [][]int{
 	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
 	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
 	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+}
+
+// numbers
+var number0 = [][]int{
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOn, LEDOn},
+	{LEDOn, LEDOff, LEDOn, LEDOff, LEDOn},
+	{LEDOn, LEDOn, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+
+var number1 = [][]int{
+	{LEDOff, LEDOn, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOff, LEDOn, LEDOff, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+
+var number2 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOff, LEDOff, LEDOff, LEDOff},
+	fullRow,
+}
+
+var number3 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOff, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+
+var number4 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOff, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+var number5 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOff, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+var number6 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOff, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+var number7 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOff, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+var number8 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOff, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+}
+
+var number9 = [][]int{
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOff, LEDOff, LEDOff, LEDOn},
+	{LEDOff, LEDOff, LEDOn, LEDOn, LEDOff},
+	{LEDOff, LEDOn, LEDOn, LEDOn, LEDOff},
+	{LEDOn, LEDOn, LEDOn, LEDOn, LEDOff},
 }
