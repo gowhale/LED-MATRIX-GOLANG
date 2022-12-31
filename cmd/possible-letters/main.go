@@ -1,3 +1,4 @@
+// Package main generates the diagram found in the images folder
 package main
 
 import (
