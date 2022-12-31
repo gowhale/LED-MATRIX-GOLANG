@@ -2,6 +2,7 @@
 package main
 
 import (
+	"log"
 	"sort"
 
 	"github.com/gowhale/go-circuit-diagram/pkg/canvas"
@@ -34,5 +35,8 @@ func main() {
 		board.AddElement(&letterLabel)
 		col++
 	}
-	board.Draw(&cc.OSReal{})
+	err := board.Draw(&cc.OSReal{})
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
