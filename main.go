@@ -13,7 +13,6 @@ import (
 
 const (
 	refreshTime   = time.Millisecond * 100
-	offsetLimit   = 100
 	defaultConfig = "eight-by-eight.json"
 )
 
@@ -22,6 +21,7 @@ func main() {
 	// go run . --debug
 	var debugMode = flag.Bool("debug", false, "run in debug mode")
 	var configName = flag.String("config", defaultConfig, "run in debug mode")
+	var text = flag.String("text", "abcdefghijklmnopqrstuvwxyz 1234567890", "text to put on the display")
 	flag.Parse()
 
 	if *configName == defaultConfig {
@@ -51,15 +51,15 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
-	run(screen, cfg)
+	run(screen, cfg, *text)
 }
 
-func run(screen gui.Screen, cfg config.PinConfig) {
-	word := "lets go champ"
-	matrix, err := mx.ConcatanateLetters(word)
+func run(screen gui.Screen, cfg config.PinConfig, text string) {
+	matrix, err := mx.ConcatanateLetters(text)
 	if err != nil {
 		log.Panicln(err)
 	}
+	offsetLimit := len(matrix[0]) + cfg.ColCount()
 	for offset := mx.OffsetStart; offset < offsetLimit; offset++ {
 		trimmedMatrix, err := mx.TrimMatrix(matrix, cfg, offset)
 		if err != nil {
@@ -72,5 +72,5 @@ func run(screen gui.Screen, cfg config.PinConfig) {
 			log.Panicln(err)
 		}
 	}
-	log.Println("fin.")
+	log.Printf("finished displaying text=%s", text)
 }
