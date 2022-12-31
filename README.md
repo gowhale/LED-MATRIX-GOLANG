@@ -19,6 +19,13 @@ To run the code without using an Raspberry Pi and to get the output to print ont
 
 https://user-images.githubusercontent.com/32711718/201545908-18fe8b8d-04c7-478e-a7ae-63ae89c2b968.mov
 
+## Available characters
+
+The system currently supports the following chars:
+
+![image](https://user-images.githubusercontent.com/32711718/210154944-e522fb2f-626d-4ad0-a933-b0437dae911f.png)
+
+The above diagram was generated in the ./cmd/possible-letters main prog. Thanks to this repo: https://github.com/gowhale/go-circuit-diagram
 
 ## How it works?
 

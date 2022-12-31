@@ -21,9 +21,10 @@ const (
 )
 
 var excludedPkgs = map[string]bool{
-	"github.com/gowhale/led-matrix-golang": true,
-	"golang-repo-template":                 true,
-	"golang-repo-template/pkg/fruit":       true,
+	"github.com/gowhale/led-matrix-golang":                      true,
+	"golang-repo-template":                                      true,
+	"golang-repo-template/pkg/fruit":                            true,
+	"github.com/gowhale/led-matrix-golang/cmd/possible-letters": true,
 }
 
 func main() {
