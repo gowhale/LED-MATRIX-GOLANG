@@ -5,6 +5,7 @@ package gui
 import (
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/gowhale/led-matrix-golang/pkg/config"
@@ -77,15 +78,18 @@ func printRow(t *terminalGui, x, y, count int, cords coordinate) error {
 		if err := t.to.Printf("0"); err != nil {
 			return err
 		}
+	} else {
+		return t.to.Printf(" ")
 	}
-	return t.to.Printf(" ")
+	return nil
 }
 
 func (t *terminalGui) CordinatesToLED(cords coordinate) error {
 	if err := t.AllLEDSOff(); err != nil {
 		return err
 	}
-	if err := t.to.Printf("cord: x=%d y=%d\n##########\n#", cords[cordXIndex], cords[cordYIndex]); err != nil {
+	padding := strings.Repeat("#", t.colCount+2)
+	if err := t.to.Printf("cord: x=%d y=%d\n%s\n#", cords[cordXIndex], cords[cordYIndex], padding); err != nil {
 		return err
 	}
 
@@ -99,5 +103,5 @@ func (t *terminalGui) CordinatesToLED(cords coordinate) error {
 		}
 	}
 
-	return t.to.Printf("#\n##########")
+	return t.to.Printf("#\n%s\n", padding)
 }
