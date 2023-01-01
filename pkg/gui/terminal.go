@@ -75,13 +75,9 @@ func printRow(t *terminalGui, x, y, count int, cords coordinate) error {
 		}
 	}
 	if x == cords[cordXIndex] && y == cords[cordYIndex] {
-		if err := t.to.Printf("0"); err != nil {
-			return err
-		}
-	} else {
-		return t.to.Printf(" ")
+		return t.to.Printf("0")
 	}
-	return nil
+	return t.to.Printf(" ")
 }
 
 func (t *terminalGui) CordinatesToLED(cords coordinate) error {

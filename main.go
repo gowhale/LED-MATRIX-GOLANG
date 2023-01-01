@@ -33,7 +33,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ledmatrix.CreateAnodeMatrix(&common.OSReal{}, cfg.RowPins, cfg.ColPins, *configName)
+
+	if err := ledmatrix.CreateAnodeMatrix(&common.OSReal{}, cfg.RowPins, cfg.ColPins, *configName); err != nil {
+		log.Fatalln(err)
+	}
 
 	log.Printf("cols=%d rows=%d", len(cfg.ColPins), len(cfg.RowPins))
 

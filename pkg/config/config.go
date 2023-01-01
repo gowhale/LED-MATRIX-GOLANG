@@ -9,6 +9,7 @@ import (
 )
 
 const (
+	// DefaultConfig is the filename of defualt config used if no override provided
 	DefaultConfig = "eight-by-eight.json"
 )
 

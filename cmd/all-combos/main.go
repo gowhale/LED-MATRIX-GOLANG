@@ -1,3 +1,6 @@
+// Package main contains a main prog which
+// goes through each led in a matrix and lights them
+// one by one.
 package main
 
 import (
@@ -21,7 +24,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ledmatrix.CreateAnodeMatrix(&common.OSReal{}, cfg.RowPins, cfg.ColPins, *configName)
+	if err := ledmatrix.CreateAnodeMatrix(&common.OSReal{}, cfg.RowPins, cfg.ColPins, *configName); err != nil {
+		log.Fatalln(err)
+	}
 
 	screen := gui.NewTerminalGui(cfg)
 	if !*debugMode {
@@ -38,59 +43,9 @@ func main() {
 		}
 	}()
 
-	for x := 0; x < 1000; x++ {
-		sleepTime := time.Duration(time.Millisecond * 200)
-		for x, _ := range cfg.ColPins {
-			for y, _ := range cfg.RowPins {
-				log.Println(x, y)
-				// time.Sleep(sleepTime)
-				startTime := time.Now()
-				for time.Since(startTime) < sleepTime {
-					screen.CordinatesToLED([2]int{x, y})
-				}
-			}
-		}
+	if err := lightCoordinates(screen, cfg); err != nil {
+		log.Fatalln(err)
 	}
-	// allPins := append(gui.ColPins, gui.RowsPins...)
-	// allPins = append(allPins, gui.R8)
-	// // for i, pin1 := range allPins {
-	// pin1 := gui.R8
-	// i := 0
-	// for j, pin2 := range allPins {
-	// 	log.Printf("percentage=%.2f pin1=%d pin2=%d \n", (float64(i+j) / float64(len(allPins)) * 100), pin1, pin2)
-	// 	// 00
-	// 	p1 := rpio.Pin(pin1)
-	// 	p2 := rpio.Pin(pin2)
-	// 	p1.Low()
-	// 	p2.Low()
-
-	// 	// log.Println("00")
-
-	// 	time.Sleep(sleepTime)
-	// 	// 01
-	// 	p1.Low()
-	// 	p2.High()
-	// 	// log.Println("01")
-	// 	time.Sleep(sleepTime)
-
-	// 	// 10
-	// 	p1.High()
-	// 	p2.Low()
-	// 	// log.Println("10")
-	// 	time.Sleep(sleepTime)
-
-	// 	// 11
-	// 	p1.High()
-	// 	p2.High()
-	// 	// log.Println("11")
-	// 	time.Sleep(sleepTime)
-
-	// 	// 00
-	// 	p1.Low()
-	// 	p2.Low()
-	// 	// }
-	// 	i++
-	// }
 
 	defer func() {
 		err := screen.Close()
@@ -98,4 +53,29 @@ func main() {
 			log.Println(err)
 		}
 	}()
+}
+
+func lightOneLED(screen gui.Screen, x, y int) error {
+	sleepTime := time.Duration(time.Millisecond * 200)
+	log.Println(x, y)
+	startTime := time.Now()
+	for time.Since(startTime) < sleepTime {
+		if err := screen.CordinatesToLED([2]int{x, y}); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func lightCoordinates(screen gui.Screen, cfg config.PinConfig) error {
+	for x := 0; x < 1000; x++ {
+		for x := range cfg.ColPins {
+			for y := range cfg.RowPins {
+				if err := lightOneLED(screen, x, y); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
 }
