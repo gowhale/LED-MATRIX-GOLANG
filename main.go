@@ -4,6 +4,7 @@ package main
 import (
 	"flag"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/gowhale/go-circuit-diagram/pkg/common"
@@ -14,7 +15,7 @@ import (
 )
 
 const (
-	refreshTime = time.Millisecond * 100
+	refreshTime = time.Millisecond * 200
 )
 
 func main() {
@@ -56,7 +57,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
-	run(screen, cfg, *text)
+	run(screen, cfg, strings.ToLower(*text))
 }
 
 func run(screen gui.Screen, cfg config.PinConfig, text string) {
