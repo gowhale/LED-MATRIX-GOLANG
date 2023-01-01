@@ -3,6 +3,7 @@ module github.com/gowhale/led-matrix-golang
 go 1.17
 
 require (
+	github.com/gowhale/go-circuit-diagram v1.0.2
 	github.com/gowhale/go-test-data v1.0.0
 	github.com/stianeikeland/go-rpio v4.2.0+incompatible
 	github.com/stretchr/testify v1.8.0
@@ -10,7 +11,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gowhale/go-circuit-diagram v1.0.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.4.0 // indirect

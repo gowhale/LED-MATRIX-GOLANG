@@ -4,33 +4,39 @@ package main
 import (
 	"flag"
 	"log"
+	"strings"
 	"time"
 
+	"github.com/gowhale/go-circuit-diagram/pkg/common"
+	ledmatrix "github.com/gowhale/go-circuit-diagram/pkg/led-matrix"
 	"github.com/gowhale/led-matrix-golang/pkg/config"
 	"github.com/gowhale/led-matrix-golang/pkg/gui"
 	mx "github.com/gowhale/led-matrix-golang/pkg/matrix"
 )
 
 const (
-	refreshTime   = time.Millisecond * 100
-	defaultConfig = "eight-by-eight.json"
+	refreshTime = time.Millisecond * 200
 )
 
 func main() {
 	// Use the below command just to run in terminal
 	// go run . --debug
 	var debugMode = flag.Bool("debug", false, "run in debug mode")
-	var configName = flag.String("config", defaultConfig, "run in debug mode")
+	var configName = flag.String("config", config.DefaultConfig, "run in debug mode")
 	var text = flag.String("text", "abcdefghijklmnopqrstuvwxyz 1234567890", "text to put on the display")
 	flag.Parse()
 
-	if *configName == defaultConfig {
-		log.Printf("Using default config file %s\n", defaultConfig)
+	if *configName == config.DefaultConfig {
+		log.Printf("Using default config file %s\n", config.DefaultConfig)
 	}
 
 	cfg, err := config.LoadConfig(*configName)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	if err := ledmatrix.CreateAnodeMatrix(&common.OSReal{}, cfg.RowPins, cfg.ColPins, *configName); err != nil {
+		log.Fatalln(err)
 	}
 
 	log.Printf("cols=%d rows=%d", len(cfg.ColPins), len(cfg.RowPins))
@@ -51,7 +57,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
-	run(screen, cfg, *text)
+	run(screen, cfg, strings.ToLower(*text))
 }
 
 func run(screen gui.Screen, cfg config.PinConfig, text string) {

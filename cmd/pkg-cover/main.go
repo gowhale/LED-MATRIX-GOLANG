@@ -25,6 +25,7 @@ var excludedPkgs = map[string]bool{
 	"golang-repo-template":                                      true,
 	"golang-repo-template/pkg/fruit":                            true,
 	"github.com/gowhale/led-matrix-golang/cmd/possible-letters": true,
+	"github.com/gowhale/led-matrix-golang/cmd/all-combos":       true,
 }
 
 func main() {

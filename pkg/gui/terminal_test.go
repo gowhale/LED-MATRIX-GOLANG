@@ -125,11 +125,11 @@ func (t *terminalSuite) Test_CordinatesToLED_Pass() {
 }
 
 func (t *terminalSuite) Test_CordinatesToLED_mockTerminal_Pass() {
-	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n%s\n#", 1, 1, "##########").Return(nil)
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "#\n#").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(nil)
-	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+	t.mockTerminal.On("Printf", "#\n%s\n", "##########").Return(nil)
 
 	term := &terminalGui{
 		rowCount: expectedRow,
@@ -140,11 +140,11 @@ func (t *terminalSuite) Test_CordinatesToLED_mockTerminal_Pass() {
 }
 
 func (t *terminalSuite) Test_CordinatesToLED_CordPrint_Error() {
-	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(fmt.Errorf("print err"))
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n%s\n#", 1, 1, "##########").Return(fmt.Errorf("print err"))
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "#\n#").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(nil)
-	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+	t.mockTerminal.On("Printf", "#\n%s\n", "##########").Return(nil)
 
 	term := &terminalGui{
 		rowCount: expectedRow,
@@ -155,11 +155,11 @@ func (t *terminalSuite) Test_CordinatesToLED_CordPrint_Error() {
 }
 
 func (t *terminalSuite) Test_CordinatesToLED_Space_Error() {
-	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n%s\n#", 1, 1, "##########").Return(nil)
 	t.mockTerminal.On("Printf", " ").Return(fmt.Errorf("print err"))
 	t.mockTerminal.On("Printf", "#\n#").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(nil)
-	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+	t.mockTerminal.On("Printf", "#\n%s\n", "##########").Return(nil)
 
 	term := &terminalGui{
 		rowCount: expectedRow,
@@ -170,11 +170,11 @@ func (t *terminalSuite) Test_CordinatesToLED_Space_Error() {
 }
 
 func (t *terminalSuite) Test_CordinatesToLED_NewLine_Error() {
-	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n%s\n#", 1, 1, "##########").Return(nil)
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "#\n#").Return(fmt.Errorf("print err"))
 	t.mockTerminal.On("Printf", "0").Return(nil)
-	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+	t.mockTerminal.On("Printf", "#\n%s\n", "##########").Return(nil)
 
 	term := &terminalGui{
 		rowCount: expectedRow,
@@ -185,11 +185,11 @@ func (t *terminalSuite) Test_CordinatesToLED_NewLine_Error() {
 }
 
 func (t *terminalSuite) Test_CordinatesToLED_Zero_Error() {
-	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n%s\n#", 1, 1, "##########").Return(nil)
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "#\n#").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(fmt.Errorf("print err"))
-	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+	t.mockTerminal.On("Printf", "#\n%s\n", "##########").Return(nil)
 
 	term := &terminalGui{
 		rowCount: expectedRow,
@@ -200,11 +200,11 @@ func (t *terminalSuite) Test_CordinatesToLED_Zero_Error() {
 }
 
 func (t *terminalSuite) Test_CordinatesToLED_EndLine_Error() {
-	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n##########\n#", 1, 1).Return(nil)
+	t.mockTerminal.On("Printf", "cord: x=%d y=%d\n%s\n#", 1, 1, "##########").Return(nil)
 	t.mockTerminal.On("Printf", " ").Return(nil)
 	t.mockTerminal.On("Printf", "#\n#").Return(nil)
 	t.mockTerminal.On("Printf", "0").Return(fmt.Errorf("print err"))
-	t.mockTerminal.On("Printf", "#\n##########").Return(nil)
+	t.mockTerminal.On("Printf", "#\n%s\n", "##########").Return(nil)
 
 	term := &terminalGui{
 		rowCount: expectedRow,
