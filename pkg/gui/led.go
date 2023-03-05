@@ -74,8 +74,8 @@ func (l *guiLED) setColPinHigh(col int) {
 // CordinatesToLED lights up a matrix's light at specified coordinate
 // Only lights temporarily used for multiplexing the lights
 func (l *guiLED) CordinatesToLED(cord coordinate) error {
-	l.setRowPinLow(l.colPins[cord[cordXIndex]])
-	l.setColPinHigh(l.rowPins[cord[cordYIndex]])
+	l.setRowPinLow(l.colPins[cord[cordYIndex]])
+	l.setColPinHigh(l.rowPins[cord[cordXIndex]])
 	return nil
 }
 
