@@ -8,6 +8,11 @@ import (
 	"log"
 )
 
+const (
+	// DefaultConfig is the filename of defualt config used if no override provided
+	DefaultConfig = "eight-by-eight.json"
+)
+
 // PinConfig is used to configure GPIO pins to rows / columns
 // This is based on the assumption that the Pi is connection to a LED matrix
 // Example matrix below

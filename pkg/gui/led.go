@@ -56,7 +56,7 @@ func newledGUIImpl(cfg config.PinConfig, rp rpioProcessor) (Screen, error) {
 }
 
 func (l *guiLED) setRowPinLow(rowPin int) {
-	for _, r := range l.rowPins {
+	for _, r := range l.colPins {
 		p := l.rpioController.Pin(r)
 		p.High()
 	}
@@ -74,8 +74,8 @@ func (l *guiLED) setColPinHigh(col int) {
 // CordinatesToLED lights up a matrix's light at specified coordinate
 // Only lights temporarily used for multiplexing the lights
 func (l *guiLED) CordinatesToLED(cord coordinate) error {
-	l.setRowPinLow(l.rowPins[cord[cordYIndex]])
-	l.setColPinHigh(l.colPins[cord[cordXIndex]])
+	l.setRowPinLow(l.colPins[cord[cordYIndex]])
+	l.setColPinHigh(l.rowPins[cord[cordXIndex]])
 	return nil
 }
 
